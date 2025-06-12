@@ -1,0 +1,34 @@
+ai_portfolio/
+├── ai_portfolio/
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── portfolio/
+│   ├── __init__.py
+│   ├── models.py
+│   ├── views.py
+│   ├── admin.py
+│   ├── urls.py
+│   ├── forms.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── home.html
+│   │   ├── about.html
+│   │   ├── skills.html
+│   │   ├── experience.html
+│   │   ├── projects.html
+│   │   ├── education.html
+│   │   ├── blog.html
+│   │   └── contact.html
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   ├── js/
+│   │   │   └── main.js
+│   │   └── images/
+│   └── migrations/
+├── media/
+├── requirements.txt
+└── manage.py
