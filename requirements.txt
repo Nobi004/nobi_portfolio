@@ -1,12 +1,2 @@
 # Modern requirements.txt for AI portfolio (2025)
-Django==5.2.1
-django-environ==0.11.2
-django-ninja==1.1.0
-django-storages[s3]==1.14.2
-django-tailwind==3.8.0
-uvicorn[standard]==0.24.0
-psycopg[binary,pool]==3.1.8
-pillow-heif==0.13.0
-sentry-sdk[django]==1.38.0
-celery[redis]==5.3.4
-django-wagtail==5.2.1
+django==5.2.3
