@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from .models import (
-    Profile, SkillCategory, Experience, Project, 
+    Profile, SkillCategory, Experience, Project, ProjectTag,
     Education, Certification, BlogPost
 )
 from .forms import ContactForm
