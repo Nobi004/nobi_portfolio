@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Education - AI Engineer Portfolio{% endblock %}
+
+{% block content %}
+<section class="education-section">
+    <div class="container">
+        <h1 class="section-title">Education & Certifications</h1>
+        
+        <div class="education-subsection">
+            <h2>Education</h2>
+            <div class="education-grid">
+                {% for edu in education %}
+                <div class="education-card">
+                    {% if edu.institution_logo %}
+                    <img src="{{ edu.institution_logo.url }}" alt="{{ edu.institution }}" class="institution-logo">
+                    {% endif %}
+                    <div class="education-info">
+                        <h3>{{ edu.degree }}</h3>
+                        <h4>{{ edu.institution }}</h4>
+                        <p class="education-meta">
+                            {{ edu.start_year }} - 
+                            {% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}
+                        </p>
+                        {% if edu.description %}
+                        <p>{{ edu.description }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% if certifications %}
+        <div class="education-subsection">
+            <h2>Certifications</h2>
+            <div class="education-grid">
+                {% for cert in certifications %}
+                <div class="education-card">
+                    {% if cert.logo %}
+                    <img src="{{ cert.logo.url }}" alt="{{ cert.issuing_organization }}" class="institution-logo">
+                    {% endif %}
+                    <div class="education-info">
+                        <h3>{{ cert.title }}</h3>
+                        <h4>{{ cert.issuing_organization }}</h4>
+                        <p class="education-meta">
+                            Issued: {{ cert.issue_date|date:"M Y" }}
+                            {% if cert.expiry_date %} | Expires: {{ cert.expiry_date|date:"M Y" }}{% endif %}
+                        </p>
+                        {% if cert.credential_id %}
+                        <p>Credential ID: {{ cert.credential_id }}</p>
+                        {% endif %}
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank" class="btn btn-outline">
+                            <i class="fas fa-certificate"></i> View Credential
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+.education-subsection {
+    margin-bottom: 3rem;
+}
+
+.education-subsection h2 {
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.education-info h4 {
+    color: var(--text-color);
+    font-weight: normal;
+}
+
+.education-meta {
+    color: var(--text-color);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+</style>
+{% endblock %}
