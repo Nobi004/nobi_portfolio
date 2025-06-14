@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - AI Engineer Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">{{ profile.name }}</h1>
+            <h2 class="hero-subtitle">{{ profile.title }}</h2>
+            <p class="hero-tagline">{{ profile.tagline }}</p>
+            
+            <div class="hero-buttons">
+                {% if profile.resume %}
+                    <a href="{{ profile.resume.url }}" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i> Download Resume
+                    </a>
+                {% endif %}
+                <a href="{% url 'contact' %}" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Get In Touch
+                </a>
+            </div>
+            
+            <div class="social-links">
+                {% if profile.github_url %}
+                    <a href="{{ profile.github_url }}" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                    <a href="{{ profile.linkedin_url }}" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                {% endif %}
+                {% if profile.twitter_url %}
+                    <a href="{{ profile.twitter_url }}" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+{% if featured_projects %}
+<section class="featured-projects">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        
+        <div class="project-grid">
+            {% for project in featured_projects %}
+            <div class="project-card">
+                {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image">
+                {% endif %}
+                <div class="project-content">
+                    <h3>{{ project.title }}</h3>
+                    <p>{{ project.short_description }}</p>
+                    <div class="project-tags">
+                        {% for tag in project.tags.all %}
+                            <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="project-links">
+                        {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        {% endif %}
+                        {% if project.demo_url %}
+                            <a href="{{ project.demo_url }}" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'projects' %}" class="btn btn-outline">View All Projects</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Blog Posts -->
+{% if recent_posts %}
+<section class="recent-posts">
+    <div class="container">
+        <h2 class="section-title">Recent Blog Posts</h2>
+        
+        <div class="blog-grid">
+            {% for post in recent_posts %}
+            <article class="blog-card">
+                <h3><a href="{{ post.external_url }}" target="_blank">{{ post.title }}</a></h3>
+                <p class="blog-meta">
+                    <i class="fas fa-calendar"></i> {{ post.publication_date|date:"M d, Y" }} |
+                    <i class="fas fa-globe"></i> {{ post.publication_platform }}
+                </p>
+                <p>{{ post.summary }}</p>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'blog' %}" class="btn btn-outline">View All Posts</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
