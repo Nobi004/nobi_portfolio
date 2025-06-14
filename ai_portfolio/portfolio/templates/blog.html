@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog & Publications - AI Engineer Portfolio{% endblock %}
+
+{% block content %}
+<section class="blog-section">
+    <div class="container">
+        <h1 class="section-title">Blog Posts & Publications</h1>
+        
+        <div class="blog-grid">
+            {% for post in posts %}
+            <article class="blog-card">
+                {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="blog-image">
+                {% endif %}
+                
+                <div class="blog-content">
+                    <h3>
+                        <a href="{{ post.external_url }}" target="_blank">
+                            {{ post.title }}
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </h3>
+                    
+                    <p class="blog-meta">
+                        <i class="fas fa-calendar"></i> {{ post.publication_date|date:"M d, Y" }} |
+                        <i class="fas fa-globe"></i> {{ post.publication_platform }}
+                    </p>
+                    
+                    <p>{{ post.summary }}</p>
+                    
+                    {% if post.tags.exists %}
+                    <div class="blog-tags">
+                        {% for tag in post.tags.all %}
+                        <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        {% if page_obj %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                
+                <span class="current-page">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+.blog-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+}
+
+.blog-content h3 a {
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.blog-content h3 a i {
+    font-size: 0.875rem;
+    color: var(--text-color);
+}
+
+.blog-tags {
+    margin-top: 1rem;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.page-links {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.page-links a {
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.page-links a:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.current-page {
+    color: var(--text-color);
+    font-weight: 500;
+}
+</style>
+{% endblock %}
