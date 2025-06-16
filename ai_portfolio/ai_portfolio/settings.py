@@ -65,10 +65,9 @@ DATABASES = {
 }
 
 if not DEBUG:
-    DATABASES['default'] = dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-
+    DATABASES = {
+    'default': dj_database_url.parse('postgresql://portfolio_je3r_user:hukEuhLBEoHjsiEI7jocTtdq5XZP670I@dpg-d1880eruibrs739g0c8g-a.oregon-postgres.render.com/portfolio_je3r')
+}
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
