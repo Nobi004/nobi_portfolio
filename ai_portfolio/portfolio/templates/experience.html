@@ -4,45 +4,55 @@
 {% block title %}Experience - AI Engineer Portfolio{% endblock %}
 
 {% block content %}
-<section class="experience-section">
-    <div class="container">
-        <h1 class="section-title">Professional Experience</h1>
-        
-        <div class="experience-timeline">
+<section class="experience-section py-16">
+    <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-12">Professional Experience</h1>
+    
+    <div class="max-w-4xl mx-auto">
+        <div class="relative">
+            <!-- Timeline Line -->
+            <div class="absolute left-8 top-0 bottom-0 w-0.5 timeline-line"></div>
+            
             {% for exp in experiences %}
-            <div class="experience-item">
-                <div class="experience-header">
-                    {% if exp.company_logo %}
-                    <img src="{{ exp.company_logo.url }}" alt="{{ exp.company_name }}" class="company-logo">
-                    {% endif %}
-                    <div class="experience-info">
-                        <h3>{{ exp.job_title }}</h3>
-                        <h4>{{ exp.company_name }}</h4>
-                        <p class="experience-meta">
-                            {{ exp.start_date|date:"M Y" }} - 
-                            {% if exp.is_current %}
-                                Present
-                            {% elif exp.end_date %}
-                                {{ exp.end_date|date:"M Y" }}
-                            {% endif %}
-                            {% if exp.location %} | {{ exp.location }}{% endif %}
-                        </p>
-                    </div>
-                </div>
+            <div class="relative flex items-start mb-8">
+                <!-- Timeline Dot -->
+                <div class="absolute left-8 timeline-dot transform -translate-x-1/2"></div>
                 
-                {% if exp.description %}
-                <p>{{ exp.description }}</p>
-                {% endif %}
-                
-                {% if exp.bullet_points %}
-                <ul class="experience-bullets">
-                    {% for bullet in exp.bullet_points.splitlines %}
-                        {% if bullet %}
-                        <li>{{ bullet }}</li>
+                <!-- Content -->
+                <div class="ml-20 glass-card p-6 w-full water-ripple">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+                        {% if exp.company_logo %}
+                        <img src="{{ exp.company_logo.url }}" alt="{{ exp.company_name }}" 
+                             class="w-16 h-16 object-contain rounded-lg bg-white/10 p-2">
                         {% endif %}
-                    {% endfor %}
-                </ul>
-                {% endif %}
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-white">{{ exp.job_title }}</h3>
+                            <h4 class="text-lg text-water-blue">{{ exp.company_name }}</h4>
+                            <p class="text-sm text-glass">
+                                {{ exp.start_date|date:"M Y" }} - 
+                                {% if exp.is_current %}
+                                    Present
+                                {% elif exp.end_date %}
+                                    {{ exp.end_date|date:"M Y" }}
+                                {% endif %}
+                                {% if exp.location %} | {{ exp.location }}{% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {% if exp.description %}
+                    <p class="text-glass mb-4">{{ exp.description }}</p>
+                    {% endif %}
+                    
+                    {% if exp.bullet_points %}
+                    <ul class="list-disc list-inside space-y-2 text-glass">
+                        {% for bullet in exp.bullet_points.splitlines %}
+                            {% if bullet %}
+                            <li>{{ bullet }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
             </div>
             {% endfor %}
         </div>
