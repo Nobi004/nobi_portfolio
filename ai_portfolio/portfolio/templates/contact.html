@@ -4,53 +4,98 @@
 {% block title %}Contact - AI Engineer Portfolio{% endblock %}
 
 {% block content %}
-<section class="contact-section">
-    <div class="container">
-        <h1 class="section-title">Get In Touch</h1>
-        
-        <div class="contact-content">
-            <form method="post" class="contact-form">
+<section class="contact-section py-16">
+    <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-12">Get In Touch</h1>
+    
+    <div class="max-w-2xl mx-auto">
+        <div class="glass-card p-8">
+            <form method="post" class="space-y-6">
                 {% csrf_token %}
                 
-                <div class="form-group">
-                    <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
-                    {{ form.name }}
+                <div>
+                    <label for="{{ form.name.id_for_label }}" class="block text-white mb-2">
+                        Name
+                    </label>
+                    <input type="text" name="name" id="{{ form.name.id_for_label }}"
+                           class="glass-input w-full" placeholder="Your Name" required>
                 </div>
                 
-                <div class="form-group">
-                    <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
-                    {{ form.email }}
+                <div>
+                    <label for="{{ form.email.id_for_label }}" class="block text-white mb-2">
+                        Email
+                    </label>
+                    <input type="email" name="email" id="{{ form.email.id_for_label }}"
+                           class="glass-input w-full" placeholder="your.email@example.com" required>
                 </div>
                 
-                <div class="form-group">
-                    <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
-                    {{ form.subject }}
+                <div>
+                    <label for="{{ form.subject.id_for_label }}" class="block text-white mb-2">
+                        Subject
+                    </label>
+                    <input type="text" name="subject" id="{{ form.subject.id_for_label }}"
+                           class="glass-input w-full" placeholder="Subject (optional)">
                 </div>
                 
-                <div class="form-group">
-                    <label for="{{ form.message.id_for_label }}" class="form-label">Message</label>
-                    {{ form.message }}
+                <div>
+                    <label for="{{ form.message.id_for_label }}" class="block text-white mb-2">
+                        Message
+                    </label>
+                    <textarea name="message" id="{{ form.message.id_for_label }}"
+                              class="glass-input w-full" rows="5" placeholder="Your message..." required></textarea>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Send Message
+                <button type="submit" class="glass-button water-ripple w-full">
+                    <i class="fas fa-paper-plane mr-2"></i> Send Message
                 </button>
             </form>
         </div>
+        
+        <!-- Contact Info -->
+        {% if profile %}
+        <div class="glass-card p-8 mt-8">
+            <h3 class="text-2xl font-semibold text-white mb-6">Contact Information</h3>
+            <div class="space-y-4">
+                {% if profile.email %}
+                <div class="flex items-center gap-3 text-glass">
+                    <i class="fas fa-envelope text-water-blue"></i>
+                    <a href="mailto:{{ profile.email }}" class="hover:text-water-blue transition-colors">
+                        {{ profile.email }}
+                    </a>
+                </div>
+                {% endif %}
+                {% if profile.phone %}
+                <div class="flex items-center gap-3 text-glass">
+                    <i class="fas fa-phone text-water-blue"></i>
+                    <span>{{ profile.phone }}</span>
+                </div>
+                {% endif %}
+                {% if profile.location %}
+                <div class="flex items-center gap-3 text-glass">
+                    <i class="fas fa-map-marker-alt text-water-blue"></i>
+                    <span>{{ profile.location }}</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="flex gap-4 mt-6">
+                {% if profile.github_url %}
+                    <a href="{{ profile.github_url }}" target="_blank" class="social-link water-hover">
+                        <i class="fab fa-github"></i>
+                    </a>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                    <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link water-hover">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                {% endif %}
+                {% if profile.twitter_url %}
+                    <a href="{{ profile.twitter_url }}" target="_blank" class="social-link water-hover">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </section>
-
-<style>
-.contact-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.contact-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-}
-</style>
 {% endblock %}
