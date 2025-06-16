@@ -7,7 +7,6 @@
 :root {
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     --water-blue: #64b5f6;
     --water-light: #90caf9;
 }
