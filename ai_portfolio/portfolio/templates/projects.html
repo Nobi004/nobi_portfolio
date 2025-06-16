@@ -4,68 +4,120 @@
 {% block title %}Projects - AI Engineer Portfolio{% endblock %}
 
 {% block content %}
-<section class="projects-section">
-    <div class="container">
-        <h1 class="section-title">Projects</h1>
-        
-        <div class="project-grid">
-            {% for project in projects %}
-            <div class="project-card">
-                {% if project.image %}
-                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image">
+<section class="projects-section py-16">
+    <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-12">Projects</h1>
+    
+    <!-- Project Filter Tags -->
+    {% if tags %}
+    <div class="flex flex-wrap gap-3 justify-center mb-8">
+        <button class="glass-button water-ripple filter-tag active" data-filter="all">
+            All Projects
+        </button>
+        {% for tag in tags %}
+        <button class="glass-button water-ripple filter-tag" data-filter="{{ tag.name|slugify }}">
+            {{ tag.name }}
+        </button>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        {% for project in projects %}
+        <div class="glass-card project-card water-ripple transform transition-all duration-300" 
+             data-tags="{% for tag in project.tags.all %}{{ tag.name|slugify }} {% endfor %}">
+            {% if project.image %}
+                <div class="relative overflow-hidden rounded-t-2xl">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" 
+                         class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110">
+                    {% if project.featured %}
+                    <span class="absolute top-4 right-4 px-3 py-1 bg-yellow-500 text-black rounded-full text-sm font-semibold">
+                        Featured
+                    </span>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-white mb-3">{{ project.title }}</h3>
+                <p class="text-glass mb-4">{{ project.short_description }}</p>
+                
+                {% if project.detailed_description %}
+                <details class="mb-4">
+                    <summary class="text-water-blue cursor-pointer hover:text-water-light transition-colors">
+                        Read more
+                    </summary>
+                    <p class="text-glass mt-2">{{ project.detailed_description }}</p>
+                </details>
                 {% endif %}
                 
-                <div class="project-content">
-                    <h3>{{ project.title }}</h3>
-                    <p>{{ project.short_description }}</p>
-                    
-                    {% if project.detailed_description %}
-                    <details class="project-details">
-                        <summary>Read more</summary>
-                        <p>{{ project.detailed_description }}</p>
-                    </details>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {% for tag in project.tags.all %}
+                        <span class="px-3 py-1 bg-glass-dark rounded-full text-sm text-glass">
+                            {{ tag.name }}
+                        </span>
+                    {% endfor %}
+                </div>
+                
+                <div class="flex gap-4">
+                    {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" 
+                           class="glass-button text-sm water-ripple">
+                            <i class="fab fa-github mr-2"></i> View Code
+                        </a>
                     {% endif %}
-                    
-                    <div class="project-tags">
-                        {% for tag in project.tags.all %}
-                        <span class="tag">{{ tag.name }}</span>
-                        {% endfor %}
-                    </div>
-                    
-                    <div class="project-links">
-                        {% if project.github_url %}
-                        <a href="{{ project.github_url }}" target="_blank" class="project-link">
-                            <i class="fab fa-github"></i> View Code
+                    {% if project.demo_url %}
+                        <a href="{{ project.demo_url }}" target="_blank" 
+                           class="glass-button text-sm water-ripple">
+                            <i class="fas fa-external-link-alt mr-2"></i> Live Demo
                         </a>
-                        {% endif %}
-                        {% if project.demo_url %}
-                        <a href="{{ project.demo_url }}" target="_blank" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Live Demo
-                        </a>
-                        {% endif %}
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
 </section>
 
+<script>
+// Project Filtering
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-tag');
+    const projects = document.querySelectorAll('.project-card');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active state
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter projects
+            projects.forEach(project => {
+                if (filter === 'all' || project.getAttribute('data-tags').includes(filter)) {
+                    project.style.display = 'block';
+                    gsap.from(project, {
+                        opacity: 0,
+                        scale: 0.8,
+                        duration: 0.5
+                    });
+                } else {
+                    gsap.to(project, {
+                        opacity: 0,
+                        scale: 0.8,
+                        duration: 0.3,
+                        onComplete: () => project.style.display = 'none'
+                    });
+                }
+            });
+        });
+    });
+});
+</script>
+
 <style>
-.project-details {
-    margin-top: 1rem;
-}
-
-.project-details summary {
-    cursor: pointer;
-    color: var(--primary-color);
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.project-details p {
-    margin-top: 0.5rem;
-    color: var(--text-color);
+.filter-tag.active {
+    background: rgba(100, 181, 246, 0.3);
+    border-color: var(--water-blue);
 }
 </style>
 {% endblock %}
