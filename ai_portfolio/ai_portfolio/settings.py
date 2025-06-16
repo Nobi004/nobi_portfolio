@@ -6,13 +6,19 @@ import dj_database_url
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='nobi004')
-
+# SECRET_KEY = config('SECRET_KEY', default='nobi004')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = os.environ.get("DEBUG","False").lower() == "true"
 
-ALLOWED_HOSTS = ['*','.vercel.app', 'localhost']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+
+
+
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -60,16 +66,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ai_portfolio.wsgi.application'
 
 # Database
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3')
-    )
-}
+database_url = os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
 
-if not DEBUG:
-    DATABASES = {
-    'default': dj_database_url.parse('postgresql://portfolio_je3r_user:hukEuhLBEoHjsiEI7jocTtdq5XZP670I@dpg-d1880eruibrs739g0c8g-a.oregon-postgres.render.com/portfolio_je3r')
-}
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
