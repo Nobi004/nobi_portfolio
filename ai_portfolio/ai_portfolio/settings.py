@@ -67,11 +67,22 @@ WSGI_APPLICATION = 'ai_portfolio.wsgi.application'
 
 
 
-database_url = os.environ.get("DATABASE_URL")
+# Default database configuration
 DATABASES = {
-    "default": dj_database_url.parse(database_url)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_db_name',
+        'USER': 'your_db_user',
+        'PASSWORD': 'your_db_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
+# Override database settings with DATABASE_URL if available
+database_url = os.getenv('DATABASE_URL')
+if database_url:
+    DATABASES['default'] = dj_database_url.parse(database_url)
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
