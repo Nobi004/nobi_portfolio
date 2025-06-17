@@ -19,6 +19,12 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/glassmorphism.css' %}">
+
+    <!-- Add after your existing CSS -->
+    <link rel="stylesheet" href="{% static 'css/enhancements.css' %}">
+
+    <!-- Add before closing </body> tag -->
+    <script src="{% static 'js/enhancements.js' %}"></script>
     
     {% block extra_css %}{% endblock %}
 </head>
