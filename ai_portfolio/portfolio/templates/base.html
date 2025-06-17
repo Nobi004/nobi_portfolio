@@ -7,7 +7,7 @@
     <title>{% block title %}AI Engineer Portfolio{% endblock %}</title>
     
     {% load static %}
-    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -23,8 +23,7 @@
     <!-- Add after your existing CSS -->
     <link rel="stylesheet" href="{% static 'css/enhancements.css' %}">
 
-    <!-- Add before closing </body> tag -->
-    <script src="{% static 'js/enhancements.js' %}"></script>
+
     
     {% block extra_css %}{% endblock %}
 </head>
@@ -106,6 +105,11 @@
     
     <!-- Custom JS -->
     <script src="{% static 'js/glassmorphism.js' %}"></script>
+
+    <script src="{% static 'js/glassmorphism.js' %}"></script>
+
+    
+    <script src="{% static 'js/enhancements.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
