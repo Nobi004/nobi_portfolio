@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
-from decouple import config
-import dj_database_url
+from decouple import config # type: ignore
+import dj_database_url # type: ignore
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = config('SECRET_KEY', default='nobi004')
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = [os.environ.get("SECRET_KEY"),'nobi04']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG","False").lower() == "true"
 
@@ -76,20 +76,18 @@ WSGI_APPLICATION = 'ai_portfolio.wsgi.application'
 # Default database configuration
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_db_name',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-# Override database settings with DATABASE_URL if available
-database_url = os.getenv('DATABASE_URL')
-if database_url:
-    DATABASES['default'] = dj_database_url.parse(database_url)
-
+# Use PostgreSQL in production (Render)
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    )
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
