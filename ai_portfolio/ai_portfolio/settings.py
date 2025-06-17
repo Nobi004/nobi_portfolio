@@ -18,7 +18,7 @@ DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = []
 if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://tick-pumped-jawfish.ngrok-free.app']
 else:
     ALLOWED_HOSTS = ['nobi-44sr.onrender.com', '.render.com']
 
