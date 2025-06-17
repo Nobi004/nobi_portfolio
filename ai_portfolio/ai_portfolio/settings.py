@@ -70,7 +70,7 @@ DATABASES = {}  # Initialize the DATABASES dictionary first
 
 # Configure database using dj_database_url
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3')
-DATABASES["default"] = dj_database_url.parse(database_url)l)
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation
