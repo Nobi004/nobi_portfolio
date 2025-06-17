@@ -1,0 +1,196 @@
+/* Dark Glassmorphism Background Enhancement */
+.dark-glass-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+/* Ensure main content is above background */
+body {
+    position: relative;
+    min-height: 100vh;
+}
+
+main, nav, footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* Enhanced Glass Card Style */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass-panel:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Curly Square Glass Cards for Nav Items */
+.nav-glass-item {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px 4px 12px 4px; /* Curly square effect */
+    padding: 8px 16px;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-glass-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-glass-item:hover::before {
+    left: 100%;
+}
+
+.nav-glass-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px) scale(1.02);
+    border-radius: 4px 12px 4px 12px; /* Reverse curly on hover */
+}
+
+/* Cursor Water Effect Styles */
+#cursor-water-effect {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.water-wave {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(64, 164, 246, 0.4) 0%, transparent 70%);
+    animation: water-pulse 2s ease-out infinite;
+}
+
+.water-wave:nth-child(2) {
+    animation-delay: 0.5s;
+    background: radial-gradient(circle, rgba(96, 182, 250, 0.3) 0%, transparent 70%);
+}
+
+.water-wave:nth-child(3) {
+    animation-delay: 1s;
+    background: radial-gradient(circle, rgba(128, 200, 255, 0.2) 0%, transparent 70%);
+}
+
+@keyframes water-pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Water Ripple Trail */
+.water-ripple {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(64, 164, 246, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    animation: ripple-fade 0.8s ease-out forwards;
+}
+
+@keyframes ripple-fade {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Enhanced navbar with glass panels */
+.enhanced-navbar {
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 0;
+}
+
+.nav-menu-enhanced {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Mobile menu enhancement */
+@media (max-width: 768px) {
+    .nav-glass-item {
+        display: block;
+        margin: 4px 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    #cursor-water-effect {
+        display: none;
+    }
+}
+
+/* Text enhancements for dark background */
+.enhanced-text {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Button enhancements */
+.glass-button-enhanced {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.glass-button-enhanced:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
