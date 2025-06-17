@@ -65,12 +65,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ai_portfolio.wsgi.application'
 
-# Database Configuration
-DATABASES = {}  # Initialize the DATABASES dictionary first
 
-# Configure database using dj_database_url
-database_url = os.environ.get('DATABASE_URL')
-DATABASES["default"] = dj_database_url.parse(database_url)
+
+database_url = os.environ.get("DATABASE_URL")
+DATABASES = {
+    "default": dj_database_url.parse(database_url)
+}
 
 
 # Password validation
