@@ -567,7 +567,41 @@ textarea.form-control {
 .mt-4 {
     margin-top: 2rem;
 }
+.quick-links-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
 
+.quick-links-list {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-link-item a {
+    display: block;
+    padding: 0.6rem 1.5rem;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.13);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.quick-link-item a:hover,
+.quick-link-item a:focus {
+    background: rgba(255,255,255,0.22);
+    color: #80bfff;
+    transform: translateY(-2px) scale(1.04);
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {
