@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.db.models import Count
 from .models import (
     Profile, SkillCategory, Experience, Project, ProjectTag,
-    Education, Certification, BlogPost
+    Education, Certification, BlogPost, Publication
 )
 from .forms import ContactForm
 
@@ -12,11 +13,26 @@ def home_view(request):
     profile = Profile.objects.first()
     featured_projects = Project.objects.filter(featured=True)[:3]
     recent_posts = BlogPost.objects.all()[:3]
+    recent_publications = Publication.objects.filter(featured=True)[:3]
+    
+    # Get counts for stats
+    projects_count = Project.objects.count()
+    publications_count = Publication.objects.count()
+    experience_years = 0
+    if Experience.objects.exists():
+        first_exp = Experience.objects.order_by('start_date').first()
+        if first_exp:
+            from datetime import datetime
+            experience_years = datetime.now().year - first_exp.start_date.year
     
     context = {
         'profile': profile,
         'featured_projects': featured_projects,
         'recent_posts': recent_posts,
+        'recent_publications': recent_publications,
+        'projects_count': projects_count,
+        'publications_count': publications_count,
+        'experience_years': experience_years,
     }
     return render(request, 'home.html', context)
 
@@ -66,3 +82,20 @@ class ContactCreateView(CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'Thank you for your message! I will get back to you soon.')
         return super().form_valid(form)
+
+# NEW: Publications View
+def publications_view(request):
+    publications = Publication.objects.all()
+    years = publications.values_list('year', flat=True).distinct().order_by('-year')
+    
+    # Get some stats (you can customize these)
+    citations_count = 100  # You might want to add a citations field to the model
+    conferences_count = publications.values('conference_journal').distinct().count()
+    
+    context = {
+        'publications': publications,
+        'years': years,
+        'citations_count': citations_count,
+        'conferences_count': conferences_count,
+    }
+    return render(request, 'publications.html', context)
