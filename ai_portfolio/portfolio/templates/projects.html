@@ -4,120 +4,362 @@
 {% block title %}Projects - AI Engineer Portfolio{% endblock %}
 
 {% block content %}
-<section class="projects-section py-16">
-    <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-12">Projects</h1>
-    
-    <!-- Project Filter Tags -->
-    {% if tags %}
-    <div class="flex flex-wrap gap-3 justify-center mb-8">
-        <button class="glass-button water-ripple filter-tag active" data-filter="all">
-            All Projects
-        </button>
-        {% for tag in tags %}
-        <button class="glass-button water-ripple filter-tag" data-filter="{{ tag.name|slugify }}">
-            {{ tag.name }}
-        </button>
-        {% endfor %}
-    </div>
-    {% endif %}
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        {% for project in projects %}
-        <div class="glass-card project-card water-ripple transform transition-all duration-300" 
-             data-tags="{% for tag in project.tags.all %}{{ tag.name|slugify }} {% endfor %}">
-            {% if project.image %}
-                <div class="relative overflow-hidden rounded-t-2xl">
-                    <img src="{{ project.image.url }}" alt="{{ project.title }}" 
-                         class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110">
+<section class="section-padding">
+    <div class="container-glass">
+        <h1 class="section-title text-gradient" data-aos="fade-up">
+            <i class="fas fa-project-diagram"></i> AI Projects Portfolio
+        </h1>
+        
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            Cutting-edge AI solutions, from computer vision to natural language processing
+        </p>
+        
+        <!-- Project Tags Filter -->
+        {% if tags %}
+        <div class="tags-filter" data-aos="fade-up" data-aos-delay="200">
+            <button class="tag-btn active" data-tag="all">All Projects</button>
+            {% for tag in tags %}
+                <button class="tag-btn" data-tag="{{ tag.name|slugify }}">{{ tag.name }}</button>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Projects Grid -->
+        <div class="projects-masonry">
+            {% for project in projects %}
+            <div class="project-item" data-tags="{% for tag in project.tags.all %}{{ tag.name|slugify }} {% endfor %}"
+                 data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                
+                <div class="project-card-glass">
                     {% if project.featured %}
-                    <span class="absolute top-4 right-4 px-3 py-1 bg-yellow-500 text-black rounded-full text-sm font-semibold">
-                        Featured
-                    </span>
+                        <div class="featured-ribbon">
+                            <i class="fas fa-award"></i> Featured
+                        </div>
                     {% endif %}
-                </div>
-            {% endif %}
-            <div class="p-6">
-                <h3 class="text-xl font-semibold text-white mb-3">{{ project.title }}</h3>
-                <p class="text-glass mb-4">{{ project.short_description }}</p>
-                
-                {% if project.detailed_description %}
-                <details class="mb-4">
-                    <summary class="text-water-blue cursor-pointer hover:text-water-light transition-colors">
-                        Read more
-                    </summary>
-                    <p class="text-glass mt-2">{{ project.detailed_description }}</p>
-                </details>
-                {% endif %}
-                
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for tag in project.tags.all %}
-                        <span class="px-3 py-1 bg-glass-dark rounded-full text-sm text-glass">
-                            {{ tag.name }}
-                        </span>
-                    {% endfor %}
-                </div>
-                
-                <div class="flex gap-4">
-                    {% if project.github_url %}
-                        <a href="{{ project.github_url }}" target="_blank" 
-                           class="glass-button text-sm water-ripple">
-                            <i class="fab fa-github mr-2"></i> View Code
-                        </a>
+                    
+                    {% if project.image %}
+                    <div class="project-image-container">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image">
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-search-plus"></i>
+                                <p>View Details</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="project-placeholder">
+                        <i class="fas fa-brain"></i>
+                    </div>
                     {% endif %}
-                    {% if project.demo_url %}
-                        <a href="{{ project.demo_url }}" target="_blank" 
-                           class="glass-button text-sm water-ripple">
-                            <i class="fas fa-external-link-alt mr-2"></i> Live Demo
-                        </a>
-                    {% endif %}
+                    
+                    <div class="project-content">
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        
+                        <p class="project-description">{{ project.short_description }}</p>
+                        
+                        {% if project.detailed_description %}
+                        <div class="project-details">
+                            <button class="details-toggle" onclick="toggleDetails(this)">
+                                <i class="fas fa-info-circle"></i> More Details
+                            </button>
+                            <div class="details-content">
+                                <p>{{ project.detailed_description|linebreaks }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="project-tags">
+                            {% for tag in project.tags.all %}
+                                <span class="tag glass-panel" data-tag="{{ tag.name|slugify }}">
+                                    <i class="fas fa-tag"></i> {{ tag.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="project-links">
+                            {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" class="project-link github">
+                                    <i class="fab fa-github"></i>
+                                    <span>View Code</span>
+                                </a>
+                            {% endif %}
+                            {% if project.demo_url %}
+                                <a href="{{ project.demo_url }}" target="_blank" class="project-link demo">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>Live Demo</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="empty-state glass-panel">
+                <i class="fas fa-folder-open"></i>
+                <h3>No projects found</h3>
+                <p>Projects will appear here once added.</p>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </section>
 
-<script>
-// Project Filtering
-document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-tag');
-    const projects = document.querySelectorAll('.project-card');
+<style>
+/* Projects Page Specific Styles */
+.tags-filter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.tag-btn {
+    padding: 0.6rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.tag-btn:hover,
+.tag-btn.active {
+    background: var(--gradient-ai);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+}
+
+.projects-masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.project-item {
+    transition: all 0.3s ease;
+}
+
+.project-item.hidden {
+    display: none;
+}
+
+.featured-ribbon {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: var(--gradient-ai);
+    color: white;
+    padding: 0.5rem 3rem;
+    transform: rotate(45deg);
+    font-size: 0.85rem;
+    z-index: 1;
+    box-shadow: 0 5px 20px rgba(0, 217, 255, 0.4);
+}
+
+.project-image-container {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+    border-radius: 20px 20px 0 0;
+}
+
+.project-placeholder {
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-dark);
+    border-radius: 20px 20px 0 0;
+}
+
+.project-placeholder i {
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.project-card-glass:hover .project-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    text-align: center;
+    color: white;
+}
+
+.overlay-content i {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-details {
+    margin: 1rem 0;
+}
+
+.details-toggle {
+    background: none;
+    border: none;
+    color: var(--ai-primary);
+    cursor: pointer;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.details-toggle:hover {
+    color: var(--ai-secondary);
+    transform: translateX(5px);
+}
+
+.details-content {
+    display: none;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    margin-top: 0.5rem;
+}
+
+.details-content.show {
+    display: block;
+    animation: fadeInUp 0.3s ease;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.project-link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.project-link:hover::before {
+    left: 100%;
+}
+
+.project-link.github:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.project-link.demo:hover {
+    background: rgba(0, 217, 255, 0.1);
+    border-color: rgba(0, 217, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+}
+
+@media (max-width: 768px) {
+    .projects-masonry {
+        grid-template-columns: 1fr;
+    }
     
-    filterButtons.forEach(button => {
+    .featured-ribbon {
+        right: -35px;
+        padding: 0.4rem 2.5rem;
+        font-size: 0.75rem;
+    }
+}
+</style>
+
+<script>
+// Toggle project details
+function toggleDetails(button) {
+    const detailsContent = button.nextElementSibling;
+    button.classList.toggle('active');
+    detailsContent.classList.toggle('show');
+}
+
+// Filter projects by tag
+document.addEventListener('DOMContentLoaded', function() {
+    const tagButtons = document.querySelectorAll('.tag-btn');
+    const projectItems = document.querySelectorAll('.project-item');
+    
+    tagButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
+            const selectedTag = this.getAttribute('data-tag');
             
-            // Update active state
-            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Update active button
+            tagButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
             // Filter projects
-            projects.forEach(project => {
-                if (filter === 'all' || project.getAttribute('data-tags').includes(filter)) {
-                    project.style.display = 'block';
-                    gsap.from(project, {
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.5
-                    });
+            projectItems.forEach(item => {
+                if (selectedTag === 'all') {
+                    item.style.display = 'block';
+                    item.classList.remove('hidden');
                 } else {
-                    gsap.to(project, {
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.3,
-                        onComplete: () => project.style.display = 'none'
-                    });
+                    const itemTags = item.getAttribute('data-tags');
+                    if (itemTags && itemTags.includes(selectedTag)) {
+                        item.style.display = 'block';
+                        item.classList.remove('hidden');
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.add('hidden');
+                    }
                 }
             });
+            
+            // Re-trigger AOS animations for visible items
+            AOS.refresh();
         });
     });
 });
 </script>
-
-<style>
-.filter-tag.active {
-    background: rgba(100, 181, 246, 0.3);
-    border-color: var(--water-blue);
-}
-</style>
 {% endblock %}
