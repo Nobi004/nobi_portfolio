@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'portfolio',
     'tailwind',
     'compressor',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +114,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [BASE_DIR/'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'portfolio' / 'static',
+]
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
