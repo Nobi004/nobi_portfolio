@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
-from decouple import config # type: ignore
-import dj_database_url # type: ignore
+# from decouple import config # type: ignore
+# import dj_database_url # type: ignore
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,13 +81,13 @@ DATABASES = {
     }
 }
 
-# Use PostgreSQL in production (Render)
-if 'DATABASE_URL' in os.environ:
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    )
+# # Use PostgreSQL in production (Render)
+# if 'DATABASE_URL' in os.environ:
+#     DATABASES['default'] = dj_database_url.config(
+#         conn_max_age=600,
+#         conn_health_checks=True,
+#         ssl_require=True,
+#     )
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
