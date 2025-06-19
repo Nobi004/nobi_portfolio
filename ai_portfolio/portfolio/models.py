@@ -6,7 +6,7 @@ class Profile(models.Model):
     title = models.CharField(max_length=200)
     tagline = models.CharField(max_length=300)
     bio = models.TextField()
-    profile_picture = models.ImageField(upload_to='profile/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='cv/', blank=True, null=True)
     resume = models.FileField(upload_to='resume/', blank=True, null=True)
     github_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
@@ -147,3 +147,23 @@ class ContactMessage(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+
+class Publication(models.Model):
+    title = models.CharField(max_length=300)
+    authors = models.CharField(max_length=500, help_text="Comma-separated list of authors")
+    conference_journal = models.CharField(max_length=200, help_text="Conference or Journal name")
+    year = models.IntegerField()
+    abstract = models.TextField(blank=True)
+    pdf_file = models.FileField(upload_to='publications/', blank=True, null=True)
+    doi_url = models.URLField(blank=True, help_text="DOI or external link")
+    arxiv_url = models.URLField(blank=True, help_text="ArXiv link")
+    tags = models.ManyToManyField(ProjectTag, blank=True)
+    featured = models.BooleanField(default=False)
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.title} ({self.year})"
+    
+    class Meta:
+        ordering = ['-year', 'order', 'title']
