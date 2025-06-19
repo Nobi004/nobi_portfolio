@@ -32,3 +32,22 @@ ai_portfolio/
 ├── media/
 ├── requirements.txt
 └── manage.py
+
+
+
+
+########## NEW STRUCTURE ######################
+portfolio/
+├── static/
+│   ├── css/
+│   │   └── ai_portfolio.css  # Copy from artifact
+│   └── js/
+│       └── ai_animations.js   # Copy from artifact
+└── templates/
+    ├── base.html             # Replace with enhanced version
+    ├── home.html             # Replace with enhanced version
+    ├── projects.html         # Replace with enhanced version
+    ├── blog.html             # Replace with enhanced version
+    ├── contact.html          # Replace with enhanced version
+    ├── skills.html           # Replace with enhanced version
+    └── publications.html     # New template - copy from artifact
