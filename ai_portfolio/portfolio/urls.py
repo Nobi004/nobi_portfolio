@@ -9,5 +9,6 @@ urlpatterns = [
     path('projects/', views.ProjectListView.as_view(), name='projects'),
     path('education/', views.education_view, name='education'),
     path('blog/', views.BlogListView.as_view(), name='blog'),
+    path('publications/', views.publications_view, name='publications'),  # NEW
     path('contact/', views.ContactCreateView.as_view(), name='contact'),
 ]
