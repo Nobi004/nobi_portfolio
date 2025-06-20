@@ -1,437 +1,218 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
 
-{% block title %}Contact - AI Engineer Portfolio{% endblock %}
+{% block title %}Contact - Portfolio{% endblock %}
 
 {% block content %}
-<section class="section-padding">
-    <div class="container-glass">
-        <h1 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-envelope"></i> Let's Connect
-        </h1>
-        
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-            Have an AI project in mind? Let's discuss how we can work together
-        </p>
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Get In Touch</h1>
         
         <div class="contact-wrapper">
-            <!-- Contact Information -->
-            <div class="contact-info" data-aos="fade-right">
-                <div class="info-card glass-panel">
-                    <h3 class="info-title">Get In Touch</h3>
-                    <p class="info-description">
-                        I'm always interested in hearing about new AI projects and opportunities.
-                        Whether you have a question or just want to say hi, feel free to reach out!
-                    </p>
-                    
-                    <div class="contact-details">
-                        {% if profile.email %}
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        {% if profile.phone %}
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <h4>Phone</h4>
-                                <a href="tel:{{ profile.phone }}">{{ profile.phone }}</a>
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        {% if profile.location %}
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>Location</h4>
-                                <p>{{ profile.location }}</p>
-                            </div>
-                        </div>
-                        {% endif %}
+            <!-- Contact Info -->
+            <div class="contact-info glass">
+                <h2 style="color: var(--primary); margin-bottom: var(--space-lg);">Let's Connect</h2>
+                
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <p>{{ profile.email|default:"hello@example.com" }}</p>
                     </div>
-                    
-                    <div class="social-section">
-                        <h4>Connect on Social</h4>
-                        <div class="social-links">
-                            {% if profile.github_url %}
-                                <a href="{{ profile.github_url }}" target="_blank" class="social-link github">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            {% endif %}
-                            {% if profile.linkedin_url %}
-                                <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link linkedin">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                            {% endif %}
-                            {% if profile.twitter_url %}
-                                <a href="{{ profile.twitter_url }}" target="_blank" class="social-link twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            {% endif %}
-                        </div>
+                </div>
+                
+                {% if profile.phone %}
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>{{ profile.phone }}</p>
                     </div>
-                    
-                    <!-- Response Time -->
-                    <div class="response-time glass-panel">
-                        <i class="fas fa-clock"></i>
-                        <p>Average response time: <strong>24 hours</strong></p>
+                </div>
+                {% endif %}
+                
+                {% if profile.location %}
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Location</h3>
+                        <p>{{ profile.location }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="social-section">
+                    <h3>Social Media</h3>
+                    <div class="social-links">
+                        {% if profile.github_url %}
+                        <a href="{{ profile.github_url }}" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.linkedin_url %}
+                        <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.twitter_url %}
+                        <a href="{{ profile.twitter_url }}" target="_blank" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             
             <!-- Contact Form -->
-            <div class="contact-form-container" data-aos="fade-left">
-                <form method="post" class="contact-form-glass" id="contactForm">
+            <div class="contact-form glass">
+                <h2 style="color: var(--primary); margin-bottom: var(--space-lg);">Send a Message</h2>
+                
+                <form method="post">
                     {% csrf_token %}
                     
-                    <div class="form-row">
-                        <div class="form-group-glass">
-                            <label for="{{ form.name.id_for_label }}" class="form-label">
-                                <i class="fas fa-user"></i> Name
-                            </label>
-                            {{ form.name|add_class:"form-input-glass" }}
-                            <span class="form-highlight"></span>
-                        </div>
-                        
-                        <div class="form-group-glass">
-                            <label for="{{ form.email.id_for_label }}" class="form-label">
-                                <i class="fas fa-envelope"></i> Email
-                            </label>
-                            {{ form.email|add_class:"form-input-glass" }}
-                            <span class="form-highlight"></span>
-                        </div>
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}" class="form-label">
+                            <i class="fas fa-user"></i> Name
+                        </label>
+                        <input type="text" 
+                               name="name" 
+                               id="{{ form.name.id_for_label }}"
+                               class="form-input" 
+                               placeholder="Your Name"
+                               required>
                     </div>
                     
-                    <div class="form-group-glass">
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input type="email" 
+                               name="email" 
+                               id="{{ form.email.id_for_label }}"
+                               class="form-input" 
+                               placeholder="your.email@example.com"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="{{ form.subject.id_for_label }}" class="form-label">
                             <i class="fas fa-tag"></i> Subject
                         </label>
-                        {{ form.subject|add_class:"form-input-glass" }}
-                        <span class="form-highlight"></span>
+                        <input type="text" 
+                               name="subject" 
+                               id="{{ form.subject.id_for_label }}"
+                               class="form-input" 
+                               placeholder="What's this about?">
                     </div>
                     
-                    <div class="form-group-glass">
+                    <div class="form-group">
                         <label for="{{ form.message.id_for_label }}" class="form-label">
-                            <i class="fas fa-comment-alt"></i> Message
+                            <i class="fas fa-message"></i> Message
                         </label>
-                        {{ form.message|add_class:"form-input-glass textarea" }}
-                        <span class="form-highlight"></span>
-                        <div class="char-counter">
-                            <span id="charCount">0</span> / 500 characters
-                        </div>
+                        <textarea name="message" 
+                                  id="{{ form.message.id_for_label }}"
+                                  class="form-input form-textarea" 
+                                  placeholder="Your message..."
+                                  rows="5"
+                                  required></textarea>
                     </div>
                     
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span class="btn-text">Send Message</span>
-                        <span class="btn-loading">
-                            <i class="fas fa-spinner fa-spin"></i> Sending...
-                        </span>
-                        <span class="btn-success">
-                            <i class="fas fa-check"></i> Sent!
-                        </span>
-                        <div class="btn-ripple"></div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Send Message
                     </button>
                 </form>
-            </div>
-        </div>
-        
-        <!-- Quick Contact Options -->
-        <div class="quick-contact" data-aos="fade-up">
-            <h3 class="quick-contact-title">Quick Actions</h3>
-            <div class="quick-contact-grid">
-                <a href="{% url 'home' %}#projects" class="quick-action glass-panel">
-                    <i class="fas fa-briefcase"></i>
-                    <span>View Projects</span>
-                </a>
-                <a href="{{ profile.resume.url }}" class="quick-action glass-panel" download>
-                    <i class="fas fa-file-download"></i>
-                    <span>Download CV</span>
-                </a>
-                <a href="{% url 'publications' %}" class="quick-action glass-panel">
-                    <i class="fas fa-book"></i>
-                    <span>Read Papers</span>
-                </a>
-                <a href="{% url 'blog' %}" class="quick-action glass-panel">
-                    <i class="fas fa-blog"></i>
-                    <span>Latest Articles</span>
-                </a>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Wave decoration at bottom -->
+<div class="wave-bottom">
+    <svg viewBox="0 0 1440 320">
+        <path fill="rgba(59, 130, 246, 0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,144C672,139,768,149,864,165.3C960,181,1056,203,1152,197.3C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+</div>
+
 <style>
-/* Contact Page Specific Styles */
+/* Contact specific styles */
 .contact-wrapper {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
-    gap: 3rem;
-    margin-top: 3rem;
+    gap: var(--space-xl);
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.info-card {
-    padding: 3rem;
-    height: fit-content;
-    position: sticky;
-    top: 100px;
+.contact-info,
+.contact-form {
+    padding: var(--space-xl);
 }
 
-.info-title {
-    color: var(--ai-primary);
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-}
-
-.info-description {
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-}
-
-.contact-details {
-    margin-bottom: 2rem;
-}
-
-.contact-item {
+.info-item {
     display: flex;
     align-items: start;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
 }
 
-.contact-item i {
+.info-item i {
     font-size: 1.5rem;
-    color: var(--ai-primary);
+    color: var(--primary);
     width: 30px;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
 }
 
-.contact-item h4 {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 0.3rem;
+.info-item h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
 }
 
-.contact-item a,
-.contact-item p {
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.contact-item a:hover {
-    color: var(--ai-primary);
+.info-item p {
+    color: var(--text-secondary);
 }
 
 .social-section {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--glass-border);
 }
 
-.social-section h4 {
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.8);
+.social-section h3 {
+    margin-bottom: var(--space-md);
+    font-size: 1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: var(--space-md);
 }
 
 .social-link {
-    width: 50px;
-    height: 50px;
-    font-size: 1.3rem;
-}
-
-.social-link.github:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.social-link.linkedin:hover {
-    background: rgba(0, 119, 181, 0.2);
-}
-
-.social-link.twitter:hover {
-    background: rgba(29, 161, 242, 0.2);
-}
-
-.response-time {
-    margin-top: 2rem;
-    padding: 1rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    background: rgba(0, 217, 255, 0.05) !important;
-    border: 1px solid rgba(0, 217, 255, 0.2) !important;
-}
-
-.response-time i {
-    color: var(--ai-primary);
-    font-size: 1.5rem;
-}
-
-/* Form Styles */
-.contact-form-glass {
-    padding: 3rem;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
-
-.form-group-glass {
-    position: relative;
-    margin-bottom: 2rem;
-}
-
-.form-label {
-    display: block;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-}
-
-.form-label i {
-    margin-right: 0.5rem;
-    color: var(--ai-primary);
-}
-
-.form-input-glass {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: white;
-    font-size: 1rem;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--primary);
+    font-size: 1.25rem;
     transition: all 0.3s ease;
 }
 
-.form-input-glass:focus {
-    outline: none;
-    border-color: var(--ai-primary);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
-}
-
-.form-input-glass.textarea {
-    min-height: 150px;
-    resize: vertical;
-}
-
-.form-highlight {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-ai);
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
-}
-
-.form-input-glass:focus ~ .form-highlight {
-    width: 100%;
-}
-
-.char-counter {
-    text-align: right;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-top: 0.5rem;
-}
-
-/* Submit Button */
-.submit-btn {
-    position: relative;
-    width: 100%;
-    padding: 1.2rem 2rem;
-    background: var(--gradient-ai);
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.submit-btn:hover {
+.social-link:hover {
+    background: rgba(59, 130, 246, 0.1);
     transform: translateY(-3px);
-    box-shadow: 0 10px 40px rgba(0, 217, 255, 0.4);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
 }
 
-.btn-loading,
-.btn-success {
-    display: none;
-}
-
-.submit-btn.loading .btn-text {
-    display: none;
-}
-
-.submit-btn.loading .btn-loading {
-    display: block;
-}
-
-.submit-btn.success .btn-loading {
-    display: none;
-}
-
-.submit-btn.success .btn-success {
-    display: block;
-}
-
-.btn-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: scale(0);
-    animation: ripple 0.6s ease-out;
-}
-
-/* Quick Contact */
-.quick-contact {
-    margin-top: 4rem;
-    text-align: center;
-}
-
-.quick-contact-title {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-}
-
-.quick-contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-}
-
-.quick-action {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 2rem;
-    text-decoration: none;
-    color: white;
-    transition: all 0.3s ease;
-}
-
-.quick-action:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.quick-action i {
-    font-size: 2.5rem;
-    color: var(--ai-primary);
+.wave-bottom {
+    position: relative;
+    margin-top: var(--space-xl);
+    margin-bottom: -10px;
 }
 
 @media (max-width: 768px) {
@@ -439,78 +220,10 @@
         grid-template-columns: 1fr;
     }
     
-    .info-card {
-        position: static;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .contact-form-glass {
-        padding: 2rem;
+    .contact-info,
+    .contact-form {
+        padding: var(--space-lg);
     }
 }
 </style>
-
-<script>
-// Character counter
-const messageTextarea = document.getElementById('{{ form.message.id_for_label }}');
-const charCount = document.getElementById('charCount');
-
-if (messageTextarea && charCount) {
-    messageTextarea.addEventListener('input', function() {
-        const count = this.value.length;
-        charCount.textContent = count;
-        
-        if (count > 450) {
-            charCount.style.color = '#FF0080';
-        } else {
-            charCount.style.color = 'rgba(255, 255, 255, 0.5)';
-        }
-    });
-}
-
-// Form submission animation
-const contactForm = document.getElementById('contactForm');
-const submitBtn = document.getElementById('submitBtn');
-
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Add loading state
-    submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
-    
-    // Simulate form submission
-    setTimeout(() => {
-        submitBtn.classList.remove('loading');
-        submitBtn.classList.add('success');
-        
-        // Reset after success
-        setTimeout(() => {
-            this.submit();
-        }, 1000);
-    }, 2000);
-});
-
-// Ripple effect on button click
-submitBtn.addEventListener('click', function(e) {
-    const ripple = this.querySelector('.btn-ripple');
-    const rect = this.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    ripple.style.left = x + 'px';
-    ripple.style.top = y + 'px';
-    ripple.style.animation = 'none';
-    
-    setTimeout(() => {
-        ripple.style.animation = 'ripple 0.6s ease-out';
-    }, 10);
-});
-</script>
-
-<!-- Template filter for adding classes -->
-{% load widget_tweaks %}
 {% endblock %}
