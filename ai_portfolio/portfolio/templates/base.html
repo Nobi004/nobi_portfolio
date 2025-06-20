@@ -3,46 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio - Modern Glass Design">
-    <title>{% block title %}Portfolio{% endblock %}</title>
+    <meta name="description" content="Md. Mahmudun Nobi - AI Engineer Portfolio">
+    <meta name="keywords" content="AI Engineer, Machine Learning, Deep Learning, Neural Networks">
+    <meta name="author" content="Md. Mahmudun Nobi">
+    <title>{% block title %}Md. Mahmudun Nobi - AI Engineer{% endblock %}</title>
     
     {% load static %}
     
-    <!-- Fonts -->
+    <!-- Favicon (optional) -->
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- CSS Files in Correct Order -->
+    <!-- 1. Base styles and utilities -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        
+    <!-- 4. Wave animations (optional) -->
+    <link rel="stylesheet" href="{% static 'css/waves.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
+    
+    <!-- 2. Glassmorphism base -->
+    <link rel="stylesheet" href="{% static 'css/glassmorphism.css' %}">
+    
+    <!-- 3. Crystal Glass Theme (Main theme - this overrides others) -->
+    <link rel="stylesheet" href="{% static 'css/crystal_glass_css.css' %}">
+    
+
+    
+    <!-- 5. Additional enhancements -->
+    <link rel="stylesheet" href="{% static 'css/enhancements.css' %}">
+
+    <!-- 6. Glass animation (optional) -->
     <link rel="stylesheet" href="{% static 'css/glass.css' %}">
+
+    <!-- 7. ai_portfolio animations (optional) -->
+    <!-- <link rel="stylesheet" href="{% static 'css/ai_portfolio.css' %}"> -->
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Wave Background -->
+    <!-- Background Effects -->
+    <div class="animated-bg"></div>
+    
+    <!-- Wave Background (Optional - you can remove if you don't want waves) -->
     <div class="wave-container">
         <div class="wave"></div>
     </div>
     
-    <!-- Cursor Trail -->
-    <div class="cursor-trail" id="cursorTrail"></div>
-    
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar-glass">
         <div class="container">
             <div class="nav-wrapper">
                 <a href="{% url 'home' %}" class="logo">
-                    <i class="fas fa-code"></i> Portfolio
+                    <i class="fas fa-brain"></i>
+                     NOBI
                 </a>
                 
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
                     <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
-                    <li><a href="{% url 'projects' %}" class="nav-link">Projects</a></li>
                     <li><a href="{% url 'skills' %}" class="nav-link">Skills</a></li>
+                    <li><a href="{% url 'experience' %}" class="nav-link">Experience</a></li>
+                    <li><a href="{% url 'projects' %}" class="nav-link">Projects</a></li>
+                    <li><a href="{% url 'education' %}" class="nav-link">Education</a></li>
                     <li><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
                     <li><a href="{% url 'publications' %}" class="nav-link">Publications</a></li>
                     <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
@@ -57,47 +87,65 @@
         </div>
     </nav>
     
-    <!-- Messages -->
+    <!-- Messages/Notifications -->
     {% if messages %}
-    <div class="container mt-2">
+    <div class="messages-container">
         {% for message in messages %}
-        <div class="glass message message-{{ message.tags }}">
-            <i class="fas fa-info-circle"></i> {{ message }}
+        <div class="glass-message message-{{ message.tags }} animate-slide-in">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+            <span>{{ message }}</span>
+            <button class="message-close" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
         {% endfor %}
     </div>
     {% endif %}
     
     <!-- Main Content -->
-    <main>
+    <main class="main-content">
         {% block content %}{% endblock %}
     </main>
     
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer-glass">
         <div class="container">
-            <p>&copy; 2024 Portfolio. Built with Django and Glass UI.</p>
-            <div class="social-links mt-2">
-                {% if profile.github_url %}
-                <a href="{{ profile.github_url }}" target="_blank" class="social-link">
-                    <i class="fab fa-github"></i>
-                </a>
-                {% endif %}
-                {% if profile.linkedin_url %}
-                <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                {% endif %}
-                {% if profile.twitter_url %}
-                <a href="{{ profile.twitter_url }}" target="_blank" class="social-link">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                {% endif %}
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 class="footer-title">Md. Mahmudun Nobi</h4>
+                    <p class="footer-subtitle">AI Engineer</p>
+                    <div class="social-links">
+                        {% if profile.github_url %}
+                        <a href="{{ profile.github_url }}" target="_blank" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.linkedin_url %}
+                        <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.twitter_url %}
+                        <a href="{{ profile.twitter_url }}" target="_blank" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.email %}
+                        <a href="mailto:{{ profile.email }}" class="social-link" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2024 Md. Mahmudun Nobi. All rights reserved.</p>
+                </div>
             </div>
         </div>
     </footer>
     
-    <!-- Minimal JavaScript -->
+    <!-- JavaScript -->
     <script>
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
@@ -105,102 +153,158 @@
         
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
         });
         
-        // Cursor Trail Effect
-        const cursor = document.getElementById('cursorTrail');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        }
-        
-        animateCursor();
-        
-        // Water Drop Effect on Click
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
-            
-            const drop = document.createElement('div');
-            drop.className = 'water-drop';
-            drop.style.left = e.clientX + 'px';
-            drop.style.top = e.clientY + 'px';
-            document.body.appendChild(drop);
-            
-            setTimeout(() => drop.remove(), 600);
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
         });
         
-        // Auto-hide messages
-        const messages = document.querySelectorAll('.message');
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Auto-hide messages after 5 seconds
+        const messages = document.querySelectorAll('.glass-message');
         messages.forEach(msg => {
             setTimeout(() => {
-                msg.style.opacity = '0';
-                setTimeout(() => msg.remove(), 300);
+                msg.style.animation = 'slideOut 0.5s ease forwards';
+                setTimeout(() => msg.remove(), 500);
             }, 5000);
+        });
+        
+        // Add scroll effect to navbar
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar-glass');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.15)';
+                navbar.style.backdropFilter = 'blur(25px)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.1)';
+                navbar.style.backdropFilter = 'blur(20px)';
+            }
+            
+            lastScroll = currentScroll;
         });
     </script>
     
+        <!-- JS Files -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/enhancements.js' %}"></script>
+    <script src="{% static 'js/glassmorphism.js' %}"></script>
+
+    <script src="{% static 'js/ai_animations.js' %}"></script>
+
+    <!-- Additional Page-specific JavaScript -->
     {% block extra_js %}{% endblock %}
 </body>
 </html>
 
 <style>
-/* Additional styles for base template */
-.hamburger {
-    display: none;
+/* Critical inline styles for proper layout */
+.main-content {
+    padding-top: 80px; /* Space for fixed navbar */
+    min-height: calc(100vh - 200px);
 }
 
-.message {
-    padding: var(--space-sm) var(--space-md);
-    margin-bottom: var(--space-sm);
+.messages-container {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 1100;
+    max-width: 400px;
+}
+
+.glass-message {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
-    transition: opacity 0.3s ease;
+    gap: 0.75rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    animation: slideIn 0.3s ease;
+}
+
+.message-close {
+    background: none;
+    border: none;
+    color: rgba(26, 26, 26, 0.6);
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.message-close:hover {
+    color: rgba(26, 26, 26, 1);
 }
 
 .message-success {
-    border-left: 4px solid #10b981;
-    background: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid #4DB6AC;
 }
 
 .message-error {
     border-left: 4px solid #ef4444;
-    background: rgba(239, 68, 68, 0.1);
 }
 
-.social-links {
-    display: flex;
-    gap: var(--space-md);
-    justify-content: center;
+.message-info {
+    border-left: 4px solid #00BCD4;
 }
 
-.social-link {
-    color: var(--text-secondary);
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-.social-link:hover {
-    color: var(--primary);
-    transform: translateY(-3px);
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 
+/* Mobile Responsive */
 @media (max-width: 768px) {
-    .hamburger {
-        display: block;
+    .messages-container {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+    
+    .main-content {
+        padding-top: 70px;
     }
 }
 </style>
