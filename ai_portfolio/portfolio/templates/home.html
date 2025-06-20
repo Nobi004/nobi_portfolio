@@ -1,386 +1,194 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home - AI Engineer Portfolio{% endblock %}
+{% block title %}Home - Portfolio{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-glass">
-    <div class="container-glass">
-        <div class="hero-content" data-aos="fade-up">
-            <h1 class="hero-title">
-                {{ profile.name }}
-            </h1>
-            <h2 class="hero-subtitle">
-                <span class="typing-effect" data-text="{{ profile.title }}"></span>
-            </h2>
-            <p class="hero-tagline">
-                {{ profile.tagline }}
-            </p>
+<section class="hero">
+    <div class="container">
+        <div class="hero-content glass">
+            <h1 class="hero-title">{{ profile.name|default:"John Doe" }}</h1>
+            <p class="hero-subtitle">{{ profile.title|default:"Full Stack Developer" }}</p>
+            <p class="hero-tagline mb-2">{{ profile.tagline|default:"Building beautiful digital experiences" }}</p>
             
             <div class="hero-buttons">
                 {% if profile.resume %}
-                    <a href="{{ profile.resume.url }}" class="cv-download-btn" download>
-                        <i class="fas fa-download"></i> Download CV
-                    </a>
-                {% endif %}
-                <a href="{% url 'contact' %}" class="btn-glass">
-                    <i class="fas fa-envelope"></i> Get In Touch
+                <a href="{{ profile.resume.url }}" download class="btn btn-primary">
+                    <i class="fas fa-download"></i> Download CV
                 </a>
-            </div>
-            
-            <div class="hero-stats glass-panel" data-aos="fade-up" data-aos-delay="200">
-                <div class="stat-item">
-                    <h3 class="text-gradient">{{ projects_count|default:"10+" }}</h3>
-                    <p>AI Projects</p>
-                </div>
-                <div class="stat-item">
-                    <h3 class="text-gradient">{{ publications_count|default:"5+" }}</h3>
-                    <p>Publications</p>
-                </div>
-                <div class="stat-item">
-                    <h3 class="text-gradient">{{ experience_years|default:"7+" }}</h3>
-                    <p>Years Experience</p>
-                </div>
+                {% endif %}
+                <a href="{% url 'contact' %}" class="btn btn-glass">
+                    <i class="fas fa-envelope"></i> Get in Touch
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Tech Stack Section -->
-<section class="section-padding">
-    <div class="container-glass">
-        <h2 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-layer-group"></i> Tech Stack
-        </h2>
+<!-- About Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
         
-        <div class="tech-stack-container" data-aos="fade-up" data-aos-delay="100">
-            <div class="tech-category glass-panel">
-                <h3><i class="fas fa-brain"></i> AI/ML</h3>
-                <div class="tech-items">
-                    <span class="skill-badge"><i class="fab fa-python"></i> TensorFlow</span>
-                    <span class="skill-badge"><i class="fab fa-python"></i> PyTorch</span>
-                    <span class="skill-badge"><i class="fas fa-robot"></i> Transformers</span>
-                    <span class="skill-badge"><i class="fas fa-chart-line"></i> Scikit-learn</span>
-                    <span class="skill-badge"><i class="fas fa-eye"></i> OpenCV</span>
-                </div>
-            </div>
-            
-            <div class="tech-category glass-panel">
-                <h3><i class="fas fa-code"></i> Languages</h3>
-                <div class="tech-items">
-                    <span class="skill-badge"><i class="fab fa-python"></i> Python</span>
-                    <span class="skill-badge"><i class="fab fa-js"></i> JavaScript</span>
-                    <span class="skill-badge"><i class="fab fa-java"></i> Java</span>
-                    <span class="skill-badge"><i class="fas fa-database"></i> SQL</span>
-                    <span class="skill-badge"><i class="fab fa-r-project"></i> R</span>
-                </div>
-            </div>
-            
-            <div class="tech-category glass-panel">
-                <h3><i class="fas fa-cloud"></i> Cloud & Tools</h3>
-                <div class="tech-items">
-                    <span class="skill-badge"><i class="fab fa-aws"></i> AWS</span>
-                    <span class="skill-badge"><i class="fab fa-google"></i> GCP</span>
-                    <span class="skill-badge"><i class="fab fa-docker"></i> Docker</span>
-                    <span class="skill-badge"><i class="fas fa-dharmachakra"></i> Kubernetes</span>
-                    <span class="skill-badge"><i class="fab fa-git"></i> Git</span>
-                </div>
-            </div>
+        <div class="glass" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+            <p style="text-align: center; line-height: 1.8; color: var(--text-secondary);">
+                {{ profile.bio|default:"Passionate developer with expertise in modern web technologies. I love creating elegant solutions to complex problems and building applications that make a difference." }}
+            </p>
         </div>
     </div>
 </section>
 
 <!-- Featured Projects -->
 {% if featured_projects %}
-<section class="section-padding">
-    <div class="container-glass">
-        <h2 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-star"></i> Featured Projects
-        </h2>
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
         
-        <div class="projects-grid">
+        <div class="card-grid">
             {% for project in featured_projects %}
-            <div class="project-card-glass animate-on-scroll" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                {% if project.image %}
-                    <div class="project-image-wrapper">
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image">
-                        <div class="project-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                {% endif %}
+            <div class="card">
+                <h3 class="card-title">{{ project.title }}</h3>
+                <p class="card-description">{{ project.short_description }}</p>
                 
-                <div class="project-content">
-                    <h3 class="project-title">{{ project.title }}</h3>
-                    <p class="project-description">{{ project.short_description }}</p>
-                    
-                    <div class="project-tags">
-                        {% for tag in project.tags.all %}
-                            <span class="tag glass-panel">{{ tag.name }}</span>
-                        {% endfor %}
-                    </div>
-                    
-                    <div class="project-links">
-                        {% if project.github_url %}
-                            <a href="{{ project.github_url }}" target="_blank" class="project-link">
-                                <i class="fab fa-github"></i> Code
-                            </a>
-                        {% endif %}
-                        {% if project.demo_url %}
-                            <a href="{{ project.demo_url }}" target="_blank" class="project-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        {% endif %}
-                    </div>
+                <div class="card-tags">
+                    {% for tag in project.tags.all %}
+                    <span class="tag">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="card-links">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="card-link">
+                        <i class="fab fa-github"></i> Code
+                    </a>
+                    {% endif %}
+                    {% if project.demo_url %}
+                    <a href="{{ project.demo_url }}" target="_blank" class="card-link">
+                        <i class="fas fa-external-link-alt"></i> Demo
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
         
-        <div class="text-center" data-aos="fade-up">
-            <a href="{% url 'projects' %}" class="btn-glass">
-                <i class="fas fa-arrow-right"></i> View All Projects
+        <div class="text-center mt-3">
+            <a href="{% url 'projects' %}" class="btn btn-glass">
+                View All Projects <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     </div>
 </section>
 {% endif %}
 
-<!-- Recent Publications -->
-{% if recent_publications %}
-<section class="section-padding">
-    <div class="container-glass">
-        <h2 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-file-alt"></i> Recent Publications
-        </h2>
+<!-- Skills Overview -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Technical Skills</h2>
         
-        <div class="publications-preview">
-            {% for pub in recent_publications %}
-            <div class="publication-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                <h3 class="publication-title">{{ pub.title }}</h3>
-                <p class="publication-authors">{{ pub.authors }}</p>
-                <p class="publication-venue">{{ pub.conference_journal }} • {{ pub.year }}</p>
-                
-                <div class="publication-links">
-                    {% if pub.pdf_file %}
-                        <a href="{{ pub.pdf_file.url }}" target="_blank" class="publication-link">
-                            <i class="fas fa-file-pdf"></i> PDF
-                        </a>
-                    {% endif %}
-                    {% if pub.doi_url %}
-                        <a href="{{ pub.doi_url }}" target="_blank" class="publication-link">
-                            <i class="fas fa-link"></i> DOI
-                        </a>
-                    {% endif %}
+        <div class="skills-container glass" style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+            <div class="skill-group mb-2">
+                <h4 style="color: var(--primary); margin-bottom: 1rem;">Frontend</h4>
+                <div class="skill-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Vue.js</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Tailwind CSS</span>
+                    <span class="tag">Next.js</span>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-        
-        <div class="text-center" data-aos="fade-up">
-            <a href="{% url 'publications' %}" class="btn-glass">
-                <i class="fas fa-arrow-right"></i> View All Publications
-            </a>
+            
+            <div class="skill-group mb-2">
+                <h4 style="color: var(--primary); margin-bottom: 1rem;">Backend</h4>
+                <div class="skill-tags">
+                    <span class="tag">Django</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">PostgreSQL</span>
+                    <span class="tag">Redis</span>
+                    <span class="tag">Docker</span>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4 style="color: var(--primary); margin-bottom: 1rem;">Tools & Others</h4>
+                <div class="skill-tags">
+                    <span class="tag">Git</span>
+                    <span class="tag">AWS</span>
+                    <span class="tag">CI/CD</span>
+                    <span class="tag">Figma</span>
+                    <span class="tag">Linux</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-{% endif %}
 
 <!-- Recent Blog Posts -->
 {% if recent_posts %}
-<section class="section-padding">
-    <div class="container-glass">
-        <h2 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-blog"></i> Recent Blog Posts
-        </h2>
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Recent Blog Posts</h2>
         
-        <div class="blog-grid">
+        <div class="card-grid">
             {% for post in recent_posts %}
-            <article class="blog-card-glass" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="blog-image">
-                {% endif %}
+            <div class="card">
+                <span class="tag mb-1">{{ post.publication_platform }}</span>
+                <h3 class="card-title">{{ post.title }}</h3>
+                <p class="card-description">{{ post.summary|truncatewords:20 }}</p>
                 
-                <div class="blog-content">
-                    <div class="blog-meta">
-                        <span><i class="fas fa-calendar"></i> {{ post.publication_date|date:"M d, Y" }}</span>
-                        <span><i class="fas fa-globe"></i> {{ post.publication_platform }}</span>
-                    </div>
-                    
-                    <h3><a href="{{ post.external_url }}" target="_blank">{{ post.title }}</a></h3>
-                    <p>{{ post.summary|truncatewords:20 }}</p>
-                    
-                    <a href="{{ post.external_url }}" target="_blank" class="read-more">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </a>
+                <div class="card-meta" style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">
+                    <i class="fas fa-calendar"></i> {{ post.publication_date|date:"M d, Y" }}
                 </div>
-            </article>
+                
+                <a href="{{ post.external_url }}" target="_blank" class="card-link">
+                    Read More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
             {% endfor %}
-        </div>
-        
-        <div class="text-center" data-aos="fade-up">
-            <a href="{% url 'blog' %}" class="btn-glass">
-                <i class="fas fa-arrow-right"></i> View All Posts
-            </a>
         </div>
     </div>
 </section>
 {% endif %}
 
-<!-- CTA Section -->
-<section class="section-padding">
-    <div class="container-glass">
-        <div class="cta-section glass-panel" data-aos="zoom-in">
-            <h2 class="cta-title text-gradient">Let's Build Something Amazing Together</h2>
-            <p class="cta-subtitle">I'm always excited to work on innovative AI projects</p>
-            <a href="{% url 'contact' %}" class="cv-download-btn">
-                <i class="fas fa-rocket"></i> Start a Project
-            </a>
-        </div>
-    </div>
-</section>
-
 <style>
-/* Additional Home Page Styles */
-.hero-stats {
+/* Page specific styles */
+.hero-tagline {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-buttons {
     display: flex;
+    gap: var(--space-md);
     justify-content: center;
-    gap: 3rem;
-    margin-top: 3rem;
-    padding: 2rem;
+    flex-wrap: wrap;
 }
 
-.stat-item {
-    text-align: center;
-}
-
-.stat-item h3 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.tech-stack-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.tech-category {
-    padding: 2rem;
-}
-
-.tech-category h3 {
-    color: var(--ai-primary);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.tech-items {
+.skill-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: var(--space-sm);
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-}
-
-.project-image-wrapper {
-    position: relative;
-    overflow: hidden;
-    height: 200px;
-    border-radius: 20px 20px 0 0;
-}
-
-.project-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.project-card-glass:hover .project-image {
-    transform: scale(1.1);
-}
-
-.project-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+.card-meta {
     display: flex;
     align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.project-card-glass:hover .project-overlay {
-    opacity: 1;
-}
-
-.project-overlay i {
-    font-size: 2rem;
-    color: white;
-}
-
-.publications-preview {
-    display: grid;
-    gap: 2rem;
-    margin: 3rem 0;
-}
-
-.blog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-}
-
-.read-more {
-    color: var(--ai-primary);
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.read-more:hover {
-    gap: 1rem;
-}
-
-.cta-section {
-    text-align: center;
-    padding: 4rem;
-}
-
-.cta-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.cta-subtitle {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
+    gap: var(--space-xs);
 }
 
 @media (max-width: 768px) {
-    .hero-stats {
+    .hero-buttons {
         flex-direction: column;
-        gap: 1.5rem;
+        align-items: center;
     }
     
-    .projects-grid,
-    .blog-grid {
-        grid-template-columns: 1fr;
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
     }
 }
 </style>
