@@ -1,97 +1,71 @@
-{% load static %}
-{% load widget_tweaks %}
-{% load tailwind_tags %}
-{% tailwind_css %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI Engineer Portfolio - Cutting-edge AI Solutions, Machine Learning & Deep Learning">
-    <meta name="keywords" content="AI Engineer, Machine Learning, Deep Learning, Neural Networks, Computer Vision, NLP">
-    <title>{% block title %}AI Engineer Portfolio{% endblock %}</title>
+    <meta name="description" content="Portfolio - Modern Glass Design">
+    <title>{% block title %}Portfolio{% endblock %}</title>
     
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <!-- Font Awesome -->
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- AOS Animation Library -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-    
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/ai_portfolio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/glass.css' %}">
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Glassmorphism Background -->
-    <!-- <div class="background-glass"></div> -->
-    <!-- Loading Animation -->
-    <div class="loading-container">
-        <div class="loading-orb"></div>
+    <!-- Wave Background -->
+    <div class="wave-container">
+        <div class="wave"></div>
     </div>
     
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    
-    <!-- Particles Background -->
-    <div id="particles-js"></div>
+    <!-- Cursor Trail -->
+    <div class="cursor-trail" id="cursorTrail"></div>
     
     <!-- Navigation -->
-    <nav class="navbar-glass">
-        <div class="container-glass">
+    <nav class="navbar">
+        <div class="container">
             <div class="nav-wrapper">
                 <a href="{% url 'home' %}" class="logo">
-
+                    <i class="fas fa-code"></i> Portfolio
                 </a>
                 
-                <button class="nav-toggle" id="navToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="{% url 'home' %}" class="nav-link">
-                        <i class="fas fa-home"></i> Home
-                    </a></li>
-                    <li><a href="{% url 'about' %}" class="nav-link">
-                        <i class="fas fa-user"></i> About
-                    </a></li>
-                    <li><a href="{% url 'skills' %}" class="nav-link">
-                        <i class="fas fa-code"></i> Skills
-                    </a></li>
-                    <li><a href="{% url 'experience' %}" class="nav-link">
-                        <i class="fas fa-briefcase"></i> Experience
-                    </a></li>
-                    <li><a href="{% url 'projects' %}" class="nav-link">
-                        <i class="fas fa-project-diagram"></i> Projects
-                    </a></li>
-                    <li><a href="{% url 'publications' %}" class="nav-link">
-                        <i class="fas fa-file-alt"></i> Publications
-                    </a></li>
-                    <li><a href="{% url 'blog' %}" class="nav-link">
-                        <i class="fas fa-blog"></i> Blog
-                    </a></li>
-                    <li><a href="{% url 'contact' %}" class="nav-link">
-                        <i class="fas fa-envelope"></i> Contact
-                    </a></li>
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'projects' %}" class="nav-link">Projects</a></li>
+                    <li><a href="{% url 'skills' %}" class="nav-link">Skills</a></li>
+                    <li><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
+                    <li><a href="{% url 'publications' %}" class="nav-link">Publications</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                 </ul>
+                
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
     
     <!-- Messages -->
     {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} glass-panel">
-                    <i class="fas fa-check-circle"></i>
-                    {{ message }}
-                </div>
-            {% endfor %}
+    <div class="container mt-2">
+        {% for message in messages %}
+        <div class="glass message message-{{ message.tags }}">
+            <i class="fas fa-info-circle"></i> {{ message }}
         </div>
+        {% endfor %}
+    </div>
     {% endif %}
     
     <!-- Main Content -->
@@ -100,61 +74,133 @@
     </main>
     
     <!-- Footer -->
-    <footer class="footer-glass">
-        <div class="container-glass">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4 class="text-gradient">AI Engineer Portfolio</h4>
-                    <p>Building the future with artificial intelligence</p>
-                    <div class="social-links">
-                        {% if profile.github_url %}
-                            <a href="{{ profile.github_url }}" target="_blank" class="social-link">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        {% endif %}
-                        {% if profile.linkedin_url %}
-                            <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                        {% endif %}
-                        {% if profile.twitter_url %}
-                            <a href="{{ profile.twitter_url }}" target="_blank" class="social-link">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul class="footer-links">
-                        <li class="quick-link-item"><a href="{% url 'projects' %}">Projects</a></li>
-                        <li class="quick-link-item"><a href="{% url 'publications' %}">Publications</a></li>
-                        <li class="quick-link-item"><a href="{% url 'blog' %}">Blog</a></li>
-                        <li class="quick-link-item"><a href="{% url 'contact' %}">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy;Md. Mahmudun Nobi, 2025 AI Engineer Portfolio. All rights reserved.</p>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Portfolio. Built with Django and Glass UI.</p>
+            <div class="social-links mt-2">
+                {% if profile.github_url %}
+                <a href="{{ profile.github_url }}" target="_blank" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                {% endif %}
+                {% if profile.twitter_url %}
+                <a href="{{ profile.twitter_url }}" target="_blank" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                {% endif %}
             </div>
         </div>
     </footer>
     
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="{% static 'js/ai_animations.js' %}"></script>
-     <!-- Optional: JS for cursor effect or other scripts -->
-    <script src="{% static 'js/cursor-effect.js' %}"></script>
+    <!-- Minimal JavaScript -->
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Cursor Trail Effect
+        const cursor = document.getElementById('cursorTrail');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        animateCursor();
+        
+        // Water Drop Effect on Click
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+            
+            const drop = document.createElement('div');
+            drop.className = 'water-drop';
+            drop.style.left = e.clientX + 'px';
+            drop.style.top = e.clientY + 'px';
+            document.body.appendChild(drop);
+            
+            setTimeout(() => drop.remove(), 600);
+        });
+        
+        // Auto-hide messages
+        const messages = document.querySelectorAll('.message');
+        messages.forEach(msg => {
+            setTimeout(() => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 300);
+            }, 5000);
         });
     </script>
     
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+
+<style>
+/* Additional styles for base template */
+.hamburger {
+    display: none;
+}
+
+.message {
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: opacity 0.3s ease;
+}
+
+.message-success {
+    border-left: 4px solid #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.message-error {
+    border-left: 4px solid #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.social-links {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+}
+
+.social-link {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+}
+</style>
