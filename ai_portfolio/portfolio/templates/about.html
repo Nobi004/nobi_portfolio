@@ -1,56 +1,86 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About - AI Engineer Portfolio{% endblock %}
+{% block title %}About - Portfolio{% endblock %}
 
 {% block content %}
-<section class="about-section">
+<section class="section">
     <div class="container">
         <h1 class="section-title">About Me</h1>
         
-        <div class="about-content">
-            {% if profile.profile_picture %}
-            <div class="profile-image-container">
-                <img src="{{ profile.profile_picture.url }}" alt="{{ profile.name }}" class="profile-image">
-            </div>
-            {% endif %}
-            
-            <div class="bio-content">
-                <h2>{{ profile.name }}</h2>
-                <h3>{{ profile.title }}</h3>
-                
-                <div class="bio-text">
-                    {{ profile.bio|linebreaks }}
+        <div class="about-wrapper">
+            <!-- Profile Section -->
+            <div class="profile-section glass">
+                {% if profile.profile_picture %}
+                <div class="profile-image">
+                    <img src="{{ profile.profile_picture.url }}" alt="{{ profile.name }}">
                 </div>
-                
-                <div class="contact-info">
-                    {% if profile.email %}
-                    <p><i class="fas fa-envelope"></i> {{ profile.email }}</p>
-                    {% endif %}
-                    {% if profile.phone %}
-                    <p><i class="fas fa-phone"></i> {{ profile.phone }}</p>
-                    {% endif %}
-                    {% if profile.location %}
-                    <p><i class="fas fa-map-marker-alt"></i> {{ profile.location }}</p>
-                    {% endif %}
+                {% else %}
+                <div class="profile-placeholder">
+                    <i class="fas fa-user"></i>
                 </div>
+                {% endif %}
                 
-                <div class="social-links">
+                <h2>{{ profile.name|default:"John Doe" }}</h2>
+                <p class="profile-title">{{ profile.title|default:"Full Stack Developer" }}</p>
+                
+                <div class="profile-links">
                     {% if profile.github_url %}
-                    <a href="{{ profile.github_url }}" target="_blank" aria-label="GitHub">
+                    <a href="{{ profile.github_url }}" target="_blank" class="social-link">
                         <i class="fab fa-github"></i>
                     </a>
                     {% endif %}
                     {% if profile.linkedin_url %}
-                    <a href="{{ profile.linkedin_url }}" target="_blank" aria-label="LinkedIn">
+                    <a href="{{ profile.linkedin_url }}" target="_blank" class="social-link">
                         <i class="fab fa-linkedin"></i>
                     </a>
                     {% endif %}
                     {% if profile.twitter_url %}
-                    <a href="{{ profile.twitter_url }}" target="_blank" aria-label="Twitter">
+                    <a href="{{ profile.twitter_url }}" target="_blank" class="social-link">
                         <i class="fab fa-twitter"></i>
                     </a>
                     {% endif %}
+                </div>
+                
+                {% if profile.resume %}
+                <a href="{{ profile.resume.url }}" download class="btn btn-primary" style="margin-top: var(--space-lg);">
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+                {% endif %}
+            </div>
+            
+            <!-- Bio Section -->
+            <div class="bio-section">
+                <div class="glass mb-2">
+                    <h3><i class="fas fa-user-circle"></i> Bio</h3>
+                    <p>{{ profile.bio|default:"Passionate developer with a love for creating elegant solutions to complex problems. Always eager to learn new technologies and take on challenging projects." }}</p>
+                </div>
+                
+                <div class="glass mb-2">
+                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                    {% for edu in education %}
+                    <div class="edu-item">
+                        <h4>{{ edu.degree }}</h4>
+                        <p>{{ edu.institution }} • {{ edu.start_year }} - {% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}</p>
+                        {% if edu.description %}
+                        <p class="edu-description">{{ edu.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <p>Education details coming soon.</p>
+                    {% endfor %}
+                </div>
+                
+                <div class="glass">
+                    <h3><i class="fas fa-briefcase"></i> Experience Highlights</h3>
+                    {% for exp in experiences|slice:":3" %}
+                    <div class="exp-item">
+                        <h4>{{ exp.job_title }}</h4>
+                        <p>{{ exp.company_name }} • {{ exp.start_date|date:"Y" }} - {% if exp.is_current %}Present{% else %}{{ exp.end_date|date:"Y" }}{% endif %}</p>
+                    </div>
+                    {% empty %}
+                    <p>Experience details coming soon.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -58,66 +88,111 @@
 </section>
 
 <style>
-.about-content {
+/* About specific styles */
+.about-wrapper {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 3rem;
-    align-items: start;
+    grid-template-columns: 350px 1fr;
+    gap: var(--space-xl);
     max-width: 1000px;
     margin: 0 auto;
 }
 
-.profile-image-container {
+.profile-section {
     text-align: center;
+    padding: var(--space-xl);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
 }
 
 .profile-image {
-    width: 100%;
-    max-width: 300px;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto var(--space-lg);
+    overflow: hidden;
     border-radius: 50%;
-    box-shadow: var(--shadow);
+    border: 4px solid var(--glass-border);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-.bio-content h2 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.bio-content h3 {
-    color: var(--text-color);
-    font-weight: normal;
-    margin-bottom: 2rem;
-}
-
-.bio-text {
-    margin-bottom: 2rem;
-    line-height: 1.8;
-}
-
-.contact-info {
-    margin-bottom: 2rem;
-}
-
-.contact-info p {
-    margin-bottom: 0.5rem;
+.profile-placeholder {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto var(--space-lg);
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--primary);
 }
 
-.contact-info i {
-    color: var(--primary-color);
-    width: 20px;
+.profile-title {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+.profile-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.bio-section .glass {
+    padding: var(--space-lg);
+}
+
+.bio-section h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--primary);
+    margin-bottom: var(--space-md);
+}
+
+.edu-item,
+.exp-item {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.edu-item:last-child,
+.exp-item:last-child {
+    border-bottom: none;
+}
+
+.edu-item h4,
+.exp-item h4 {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+}
+
+.edu-item p,
+.exp-item p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.edu-description {
+    margin-top: var(--space-xs);
+    font-size: 0.875rem;
 }
 
 @media (max-width: 768px) {
-    .about-content {
+    .about-wrapper {
         grid-template-columns: 1fr;
-        text-align: center;
     }
     
-    .contact-info p {
-        justify-content: center;
+    .profile-section {
+        position: static;
     }
 }
 </style>
