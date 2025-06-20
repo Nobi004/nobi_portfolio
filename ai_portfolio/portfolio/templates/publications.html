@@ -1,287 +1,231 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Publications - AI Engineer Portfolio{% endblock %}
+{% block title %}Publications - Portfolio{% endblock %}
 
 {% block content %}
-<section class="section-padding">
-    <div class="container-glass">
-        <h1 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-file-alt"></i> Academic Publications
-        </h1>
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Publications</h1>
         
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-            Research papers, conference presentations, and academic contributions in AI/ML
-        </p>
-        
-        <!-- Filter Buttons -->
-        <div class="filter-container" data-aos="fade-up" data-aos-delay="200">
-            <button class="filter-btn active" data-filter="all">All</button>
+        <!-- Year Filter -->
+        {% if years %}
+        <div class="filter-container text-center mb-3">
+            <button class="tag filter-tag active" data-year="all">All Years</button>
             {% for year in years %}
-                <button class="filter-btn" data-filter="{{ year }}">{{ year }}</button>
+            <button class="tag filter-tag" data-year="{{ year }}">{{ year }}</button>
             {% endfor %}
         </div>
+        {% endif %}
         
         <!-- Publications List -->
-        <div class="publications-container">
+        <div class="publications-list">
             {% for publication in publications %}
-            <div class="publication-card glass-panel animate-on-scroll" 
-                 data-year="{{ publication.year }}"
-                 data-aos="fade-up" 
-                 data-aos-delay="{{ forloop.counter0|add:1 }}00">
+            <div class="publication-item" data-year="{{ publication.year }}">
+                <div class="publication-header">
+                    <h3 class="publication-title">{{ publication.title }}</h3>
+                    {% if publication.featured %}
+                    <span class="featured-icon">
+                        <i class="fas fa-award"></i>
+                    </span>
+                    {% endif %}
+                </div>
                 
-                {% if publication.featured %}
-                    <div class="featured-badge">
-                        <i class="fas fa-star"></i> Featured
-                    </div>
-                {% endif %}
-                
-                <h3 class="publication-title">
-                    {{ publication.title }}
-                </h3>
-                
-                <p class="publication-authors">
+                <p class="publication-meta">
                     <i class="fas fa-users"></i> {{ publication.authors }}
                 </p>
                 
-                <p class="publication-venue">
-                    <i class="fas fa-university"></i> {{ publication.conference_journal }} • {{ publication.year }}
+                <p class="publication-meta">
+                    <i class="fas fa-book"></i> {{ publication.conference_journal }} • {{ publication.year }}
                 </p>
                 
                 {% if publication.abstract %}
-                <div class="publication-abstract">
-                    <button class="abstract-toggle" onclick="toggleAbstract(this)">
-                        <i class="fas fa-chevron-down"></i> Abstract
-                    </button>
-                    <div class="abstract-content">
-                        <p>{{ publication.abstract }}</p>
-                    </div>
-                </div>
-                {% endif %}
-                
-                {% if publication.tags.exists %}
-                <div class="publication-tags">
-                    {% for tag in publication.tags.all %}
-                        <span class="tag glass-panel">{{ tag.name }}</span>
-                    {% endfor %}
-                </div>
+                <details class="publication-abstract">
+                    <summary>Abstract</summary>
+                    <p>{{ publication.abstract }}</p>
+                </details>
                 {% endif %}
                 
                 <div class="publication-links">
                     {% if publication.pdf_file %}
-                        <a href="{{ publication.pdf_file.url }}" target="_blank" class="publication-link">
-                            <i class="fas fa-file-pdf"></i> Download PDF
-                        </a>
+                    <a href="{{ publication.pdf_file.url }}" target="_blank" class="btn btn-glass btn-sm">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </a>
                     {% endif %}
                     
                     {% if publication.doi_url %}
-                        <a href="{{ publication.doi_url }}" target="_blank" class="publication-link">
-                            <i class="fas fa-link"></i> DOI
-                        </a>
+                    <a href="{{ publication.doi_url }}" target="_blank" class="btn btn-glass btn-sm">
+                        <i class="fas fa-link"></i> DOI
+                    </a>
                     {% endif %}
                     
                     {% if publication.arxiv_url %}
-                        <a href="{{ publication.arxiv_url }}" target="_blank" class="publication-link">
-                            <i class="fas fa-archive"></i> arXiv
-                        </a>
+                    <a href="{{ publication.arxiv_url }}" target="_blank" class="btn btn-glass btn-sm">
+                        <i class="fas fa-archive"></i> arXiv
+                    </a>
                     {% endif %}
                 </div>
             </div>
             {% empty %}
-            <div class="empty-state glass-panel">
-                <i class="fas fa-folder-open"></i>
-                <h3>No publications yet</h3>
-                <p>Academic publications will appear here once added.</p>
+            <div class="glass text-center" style="padding: 3rem;">
+                <i class="fas fa-book-open" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p>No publications available yet.</p>
             </div>
             {% endfor %}
         </div>
         
         <!-- Publication Stats -->
-        <div class="publication-stats glass-panel" data-aos="zoom-in">
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <i class="fas fa-file-alt"></i>
-                    <h3 class="text-gradient">{{ publications.count }}</h3>
-                    <p>Total Publications</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-quote-right"></i>
-                    <h3 class="text-gradient">{{ citations_count|default:"50+" }}</h3>
-                    <p>Citations</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-university"></i>
-                    <h3 class="text-gradient">{{ conferences_count|default:"10+" }}</h3>
-                    <p>Conferences</p>
-                </div>
+        {% if publications %}
+        <div class="stats-container mt-3">
+            <div class="stat-item glass">
+                <i class="fas fa-file-alt"></i>
+                <h3>{{ publications.count }}</h3>
+                <p>Total Publications</p>
+            </div>
+            <div class="stat-item glass">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>{{ years|length }}</h3>
+                <p>Active Years</p>
+            </div>
+            <div class="stat-item glass">
+                <i class="fas fa-award"></i>
+                <h3>{{ publications.filter.featured.count|default:"0" }}</h3>
+                <p>Featured Papers</p>
             </div>
         </div>
+        {% endif %}
     </div>
 </section>
 
 <style>
-/* Publications Page Styles */
-.section-subtitle {
-    text-align: center;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 3rem;
-}
-
-.filter-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 0.5rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    color: rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background: var(--gradient-ai);
-    border-color: transparent;
-    color: white;
-    transform: translateY(-2px);
-}
-
-.publications-container {
+/* Publications specific styles */
+.publications-list {
     max-width: 900px;
     margin: 0 auto;
 }
 
-.featured-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: var(--gradient-ai);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+.publication-item[data-year].hidden {
+    display: none;
+}
+
+.publication-header {
     display: flex;
-    align-items: center;
-    gap: 0.3rem;
+    justify-content: space-between;
+    align-items: start;
+    gap: var(--space-md);
+}
+
+.featured-icon {
+    color: var(--accent);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.publication-meta i {
+    width: 20px;
+    color: var(--primary);
+    margin-right: 0.5rem;
 }
 
 .publication-abstract {
-    margin: 1.5rem 0;
+    margin: var(--space-md) 0;
+    padding: var(--space-sm);
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: var(--radius-sm);
 }
 
-.abstract-toggle {
-    background: none;
-    border: none;
-    color: var(--ai-primary);
+.publication-abstract summary {
     cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0;
-    transition: all 0.3s ease;
+    color: var(--primary);
+    font-weight: 500;
+    padding: var(--space-xs);
 }
 
-.abstract-toggle:hover {
-    color: var(--ai-secondary);
+.publication-abstract[open] summary {
+    margin-bottom: var(--space-sm);
 }
 
-.abstract-toggle i {
-    transition: transform 0.3s ease;
-}
-
-.abstract-toggle.active i {
-    transform: rotate(180deg);
-}
-
-.abstract-content {
-    display: none;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 10px;
-    margin-top: 0.5rem;
+.publication-abstract p {
+    color: var(--text-secondary);
     line-height: 1.8;
+    padding: 0 var(--space-xs);
 }
 
-.abstract-content.show {
-    display: block;
-    animation: fadeInUp 0.3s ease;
+.btn-sm {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.875rem;
 }
 
-.publication-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1rem 0;
-}
-
-.publication-stats {
-    margin-top: 4rem;
-    padding: 3rem;
-}
-
-.stat-grid {
+/* Stats */
+.stats-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.stat-item {
     text-align: center;
+    padding: var(--space-lg);
 }
 
 .stat-item i {
     font-size: 2rem;
-    color: var(--ai-primary);
-    margin-bottom: 1rem;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
 }
 
 .stat-item h3 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
 }
 
-.empty-state {
-    text-align: center;
-    padding: 4rem;
-    margin: 3rem auto;
-}
-
-.empty-state i {
-    font-size: 4rem;
-    color: rgba(255, 255, 255, 0.3);
-    margin-bottom: 1rem;
-}
-
-.empty-state h3 {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 0.5rem;
+.stat-item p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
 }
 
 @media (max-width: 768px) {
-    .filter-container {
-        justify-content: flex-start;
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
+    .publication-header {
+        flex-direction: column;
     }
     
-    .publication-stats {
-        padding: 2rem;
+    .stats-container {
+        grid-template-columns: 1fr;
     }
 }
 </style>
 
 <script>
-function toggleAbstract(button) {
-    const abstractContent = button.nextElementSibling;
-    button.classList.toggle('active');
-    abstractContent.classList.toggle('show');
-}
+// Year filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-tag');
+    const publications = document.querySelectorAll('.publication-item');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const year = this.getAttribute('data-year');
+            
+            // Update active state
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter publications
+            publications.forEach(pub => {
+                if (year === 'all') {
+                    pub.classList.remove('hidden');
+                } else {
+                    const pubYear = pub.getAttribute('data-year');
+                    if (pubYear === year) {
+                        pub.classList.remove('hidden');
+                    } else {
+                        pub.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    });
+});
 </script>
 {% endblock %}
