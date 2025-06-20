@@ -58,7 +58,7 @@ a:hover {
 
 /* Navigation */
 .navbar {
-    background-color: white;
+    background-color: hwb(194 12% 31%);
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
@@ -69,7 +69,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 20px;
+    padding: 1rem 30px;
 }
 
 .logo {
@@ -118,7 +118,7 @@ a:hover {
     width: 25px;
     height: 3px;
     background-color: var(--dark-color);
-    margin: 3px 0;
+    margin: 5px 0;
     transition: 0.3s;
 }
 
