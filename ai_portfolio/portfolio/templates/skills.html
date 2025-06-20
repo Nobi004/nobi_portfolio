@@ -1,83 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
-{% load tailwind_tags %}
-{% tailwind_css %}
 
-{% block title %}Skills - AI Engineer Portfolio{% endblock %}
+{% block title %}Skills - Portfolio{% endblock %}
 
 {% block content %}
-<section class="section-padding">
-    <div class="container-glass">
-        <h1 class="section-title text-gradient" data-aos="fade-up">
-            <i class="fas fa-code"></i> Technical Expertise
-        </h1>
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Technical Skills</h1>
         
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-            Mastering the tools and technologies that power modern AI
-        </p>
-        
-        <!-- Skills Overview Stats -->
-        <div class="skills-stats glass-panel" data-aos="fade-up" data-aos-delay="200">
-            <div class="stat-item">
-                <i class="fas fa-brain"></i>
-                <h3>{{ skills_count|default:"50+" }}</h3>
-                <p>Technologies</p>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-certificate"></i>
-                <h3>{{ certifications_count|default:"10+" }}</h3>
-                <p>Certifications</p>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-project-diagram"></i>
-                <h3>{{ projects_count|default:"25+" }}</h3>
-                <p>Projects Completed</p>
-            </div>
-        </div>
-        
-        <!-- Skills Categories -->
-        <div class="skills-container">
+        <div class="skills-wrapper">
             {% for category in categories %}
-            <div class="skill-category-card glass-panel" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:3 }}00">
-                <div class="category-header">
-                    <i class="fas fa-layer-group"></i>
-                    <h2 class="category-title">{{ category.name }}</h2>
-                </div>
+            <div class="skill-category glass">
+                <h3 class="category-title">
+                    <i class="fas fa-layer-group"></i> {{ category.name }}
+                </h3>
                 
-                <div class="skills-grid">
+                <div class="skills-list">
                     {% for skill in category.skills.all %}
-                    <div class="skill-item-glass">
+                    <div class="skill-item">
                         <div class="skill-header">
-                            <div class="skill-info">
+                            <div class="skill-name">
                                 {% if skill.icon %}
-                                    <i class="{{ skill.icon }} skill-icon"></i>
-                                {% else %}
-                                    <i class="fas fa-code skill-icon"></i>
+                                <i class="{{ skill.icon }}"></i>
                                 {% endif %}
-                                <span class="skill-name">{{ skill.name }}</span>
+                                {{ skill.name }}
                             </div>
-                            <span class="skill-level-text">{{ skill.level }}%</span>
+                            <span class="skill-level">{{ skill.level }}%</span>
                         </div>
                         
-                        <div class="skill-bar-container">
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-level="{{ skill.level }}" style="width: 0%;">
-                                    <div class="skill-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-level-indicator">
-                            {% if skill.level >= 90 %}
-                                <span class="level-badge expert">Expert</span>
-                            {% elif skill.level >= 70 %}
-                                <span class="level-badge advanced">Advanced</span>
-                            {% elif skill.level >= 50 %}
-                                <span class="level-badge intermediate">Intermediate</span>
-                            {% else %}
-                                <span class="level-badge learning">Learning</span>
-                            {% endif %}
+                        <div class="skill-bar">
+                            <div class="skill-progress" 
+                                 data-level="{{ skill.level }}" 
+                                 style="width: 0%;"></div>
                         </div>
                     </div>
                     {% endfor %}
@@ -86,341 +40,179 @@
             {% endfor %}
         </div>
         
-        <!-- Interactive Skills Cloud -->
-        <div class="skills-cloud glass-panel" data-aos="zoom-in">
-            <h3 class="cloud-title">Skills Overview</h3>
-            <div class="cloud-container" id="skillsCloud">
+        <!-- Skills Overview -->
+        <div class="skills-overview glass mt-3">
+            <h3 class="text-center mb-2" style="color: var(--primary);">Skills Overview</h3>
+            
+            <div class="skills-cloud">
                 {% for category in categories %}
                     {% for skill in category.skills.all %}
-                        <span class="cloud-tag" data-level="{{ skill.level }}">
+                        <span class="skill-tag" data-level="{{ skill.level }}">
                             {{ skill.name }}
                         </span>
                     {% endfor %}
                 {% endfor %}
             </div>
         </div>
-        
-        <!-- Learning Progress -->
-        <div class="learning-section" data-aos="fade-up">
-            <h3 class="learning-title text-gradient">Currently Learning</h3>
-            <div class="learning-grid">
-                <div class="learning-item glass-panel">
-                    <i class="fas fa-robot"></i>
-                    <h4>Advanced Robotics</h4>
-                    <p>Exploring autonomous systems and robot learning</p>
-                </div>
-                <div class="learning-item glass-panel">
-                    <i class="fas fa-dna"></i>
-                    <h4>Bioinformatics AI</h4>
-                    <p>Applying ML to genomics and protein folding</p>
-                </div>
-                <div class="learning-item glass-panel">
-                    <i class="fas fa-quantum"></i>
-                    <h4>Quantum ML</h4>
-                    <p>Quantum computing applications in machine learning</p>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
 <style>
-/* Skills Page Specific Styles */
-.skills-stats {
+/* Skills specific styles */
+.skills-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    padding: 3rem;
-    margin-bottom: 3rem;
-    text-align: center;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
 }
 
-.skills-stats .stat-item i {
-    font-size: 2.5rem;
-    color: var(--ai-primary);
-    margin-bottom: 1rem;
-}
-
-.skills-stats .stat-item h3 {
-    font-size: 2.5rem;
-    background: var(--gradient-ai);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-}
-
-.skill-category-card {
-    margin-bottom: 3rem;
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.skill-category-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
-    animation: rotate 30s linear infinite;
-}
-
-.category-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.category-header i {
-    font-size: 2rem;
-    color: var(--ai-primary);
+.skill-category {
+    padding: var(--space-lg);
 }
 
 .category-title {
-    color: var(--ai-primary);
-    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--primary);
+    margin-bottom: var(--space-lg);
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+.skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
 }
 
-.skill-item-glass {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-}
-
-.skill-item-glass:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+.skill-item {
+    padding: var(--space-sm);
 }
 
 .skill-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-}
-
-.skill-info {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.skill-icon {
-    font-size: 1.5rem;
-    color: var(--ai-primary);
+    margin-bottom: var(--space-sm);
 }
 
 .skill-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
     font-weight: 500;
-    color: white;
+    color: var(--text-primary);
 }
 
-.skill-level-text {
-    font-size: 0.9rem;
-    color: var(--ai-primary);
+.skill-name i {
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+
+.skill-level {
+    font-size: 0.875rem;
+    color: var(--primary);
     font-weight: 600;
-}
-
-.skill-bar-container {
-    margin-bottom: 0.8rem;
 }
 
 .skill-bar {
     height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: var(--radius-full);
     overflow: hidden;
     position: relative;
 }
 
 .skill-progress {
     height: 100%;
-    background: var(--gradient-ai);
-    border-radius: 10px;
-    transition: width 2s ease;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: var(--radius-full);
+    transition: width 1.5s ease;
     position: relative;
     overflow: hidden;
 }
 
-.skill-glow {
+.skill-progress::after {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     animation: shimmer 2s infinite;
 }
 
-.skill-level-indicator {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.level-badge {
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-}
-
-.level-badge.expert {
-    background: rgba(0, 217, 255, 0.2);
-    color: #00D9FF;
-    border: 1px solid rgba(0, 217, 255, 0.3);
-}
-
-.level-badge.advanced {
-    background: rgba(121, 40, 202, 0.2);
-    color: #7928CA;
-    border: 1px solid rgba(121, 40, 202, 0.3);
-}
-
-.level-badge.intermediate {
-    background: rgba(255, 0, 128, 0.2);
-    color: #FF0080;
-    border: 1px solid rgba(255, 0, 128, 0.3);
-}
-
-.level-badge.learning {
-    background: rgba(255, 215, 0, 0.2);
-    color: #FFD700;
-    border: 1px solid rgba(255, 215, 0, 0.3);
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 /* Skills Cloud */
-.skills-cloud {
-    margin: 4rem 0;
-    padding: 3rem;
+.skills-overview {
+    padding: var(--space-xl);
     text-align: center;
 }
 
-.cloud-title {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-}
-
-.cloud-container {
+.skills-cloud {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
-    padding: 2rem;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
 }
 
-.cloud-tag {
+.skill-tag {
     display: inline-block;
-    padding: 0.6rem 1.2rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: var(--radius-full);
+    color: var(--primary);
+    font-size: 0.875rem;
     transition: all 0.3s ease;
-    cursor: pointer;
+    cursor: default;
 }
 
-.cloud-tag:hover {
-    background: var(--gradient-ai);
-    border-color: transparent;
-    transform: scale(1.1);
-    box-shadow: 0 5px 20px rgba(0, 217, 255, 0.3);
-}
-
-.cloud-tag[data-level="100"],
-.cloud-tag[data-level="90"],
-.cloud-tag[data-level="95"] {
-    font-size: 1.2rem;
+.skill-tag[data-level="100"],
+.skill-tag[data-level="90"],
+.skill-tag[data-level="95"] {
+    font-size: 1.125rem;
     font-weight: 600;
+    background: rgba(59, 130, 246, 0.15);
 }
 
-.cloud-tag[data-level="80"],
-.cloud-tag[data-level="85"] {
-    font-size: 1.1rem;
+.skill-tag[data-level="80"],
+.skill-tag[data-level="85"] {
+    font-size: 1rem;
+    font-weight: 500;
 }
 
-/* Learning Section */
-.learning-section {
-    margin-top: 4rem;
-    text-align: center;
-}
-
-.learning-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
-
-.learning-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.learning-item {
-    padding: 2rem;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.learning-item:hover {
-    transform: translateY(-5px);
-}
-
-.learning-item i {
-    font-size: 3rem;
-    color: var(--ai-primary);
-    margin-bottom: 1rem;
-}
-
-.learning-item h4 {
-    color: white;
-    margin-bottom: 0.5rem;
-}
-
-.learning-item p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
+.skill-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+    background: rgba(59, 130, 246, 0.2);
 }
 
 @media (max-width: 768px) {
-    .skills-grid {
+    .skills-wrapper {
         grid-template-columns: 1fr;
     }
     
-    .skills-stats {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .learning-grid {
-        grid-template-columns: 1fr;
+    .skill-category {
+        padding: var(--space-md);
     }
 }
 </style>
 
 <script>
-// Animate skill bars when in view
+// Animate skill bars on scroll
 document.addEventListener('DOMContentLoaded', function() {
     const observerOptions = {
-        threshold: 0.2,
+        threshold: 0.3,
         rootMargin: '0px'
     };
     
-    const skillObserver = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const skillBars = entry.target.querySelectorAll('.skill-progress');
@@ -430,39 +222,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         bar.style.width = level + '%';
                     }, index * 100);
                 });
-                skillObserver.unobserve(entry.target);
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
     
     // Observe all skill categories
-    document.querySelectorAll('.skill-category-card').forEach(card => {
-        skillObserver.observe(card);
-    });
-    
-    // Skills cloud animation
-    const cloudTags = document.querySelectorAll('.cloud-tag');
-    cloudTags.forEach((tag, index) => {
-        const level = parseInt(tag.getAttribute('data-level'));
-        const scale = 0.8 + (level / 100) * 0.4;
-        const opacity = 0.6 + (level / 100) * 0.4;
-        
-        tag.style.transform = `scale(${scale})`;
-        tag.style.opacity = opacity;
-        
-        // Random floating animation
-        tag.style.animation = `float ${15 + Math.random() * 10}s ease-in-out ${Math.random() * 5}s infinite`;
+    document.querySelectorAll('.skill-category').forEach(category => {
+        observer.observe(category);
     });
 });
-
-// Add floating animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-`;
-document.head.appendChild(style);
 </script>
 {% endblock %}
