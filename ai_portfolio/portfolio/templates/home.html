@@ -1,45 +1,70 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home - Portfolio{% endblock %}
+{% block title %}Home - Md. Mahmudun Nobi{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
+<!-- Enhanced Hero Section with Photo -->
+<section class="hero-enhanced">
     <div class="container">
-        <div class="hero-content glass">
-            <h1 class="hero-title">{{ profile.name|default:"John Doe" }}</h1>
-            <p class="hero-subtitle">{{ profile.title|default:"Full Stack Developer" }}</p>
-            <p class="hero-tagline mb-2">{{ profile.tagline|default:"Building beautiful digital experiences" }}</p>
-            
-            <div class="hero-buttons">
-                {% if profile.resume %}
-                <a href="{{ profile.resume.url }}" download class="btn btn-primary">
-                    <i class="fas fa-download"></i> Download CV
-                </a>
-                {% endif %}
-                <a href="{% url 'contact' %}" class="btn btn-glass">
-                    <i class="fas fa-envelope"></i> Get in Touch
-                </a>
+        <div class="hero-glass-card">
+            <div class="hero-content-wrapper">
+                <!-- Profile Photo Section -->
+                <div class="hero-photo-section">
+                    <div class="photo-frame">
+                        {% if profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}" alt="{{ profile.name }}" class="profile-photo">
+                        {% else %}
+                        <!-- Placeholder if no photo -->
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        {% endif %}
+                        <div class="photo-decoration"></div>
+                    </div>
+                </div>
+                
+                <!-- Hero Text Content -->
+                <div class="hero-text-section">
+                    <h1 class="hero-name">{{ profile.name|default:"Md. Mahmudun Nobi" }}</h1>
+                    <h2 class="hero-title">{{ profile.title|default:"AI Engineer" }}</h2>
+                    <p class="hero-tagline">{{ profile.tagline|default:"Lets explore and dive into the world of AI." }}</p>
+                    
+                    <div class="hero-buttons">
+                        {% if profile.resume %}
+                        <a href="{{ profile.resume.url }}" download class="btn btn-primary">
+                            <i class="fas fa-download"></i> Download CV
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'contact' %}" class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i> Get in Touch
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <!-- Decorative Elements -->
+    <div class="hero-decoration-1"></div>
+    <div class="hero-decoration-2"></div>
 </section>
 
+<!-- Rest of your existing sections -->
 <!-- About Section -->
 <section class="section">
     <div class="container">
         <h2 class="section-title">About Me</h2>
         
-        <div class="glass" style="max-width: 800px; margin: 0 auto; padding: 2rem;">
-            <p style="text-align: center; line-height: 1.8; color: var(--text-secondary);">
-                {{ profile.bio|default:"Passionate developer with expertise in modern web technologies. I love creating elegant solutions to complex problems and building applications that make a difference." }}
+        <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+            <p style="text-align: center; line-height: 1.8;">
+                {{ profile.bio|default:"Passionate AI engineer with expertise in machine learning, deep learning, and neural networks. I love creating intelligent solutions that make a real impact." }}
             </p>
         </div>
     </div>
 </section>
 
-<!-- Featured Projects -->
+<!-- Featured Projects Section -->
 {% if featured_projects %}
 <section class="section">
     <div class="container">
@@ -47,7 +72,7 @@
         
         <div class="card-grid">
             {% for project in featured_projects %}
-            <div class="card">
+            <div class="glass-card project-card">
                 <h3 class="card-title">{{ project.title }}</h3>
                 <p class="card-description">{{ project.short_description }}</p>
                 
@@ -72,12 +97,6 @@
             </div>
             {% endfor %}
         </div>
-        
-        <div class="text-center mt-3">
-            <a href="{% url 'projects' %}" class="btn btn-glass">
-                View All Projects <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
     </div>
 </section>
 {% endif %}
@@ -87,109 +106,40 @@
     <div class="container">
         <h2 class="section-title">Technical Skills</h2>
         
-        <div class="skills-container glass" style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
-            <div class="skill-group mb-2">
-                <h4 style="color: var(--primary); margin-bottom: 1rem;">Frontend</h4>
+        <div class="glass-card skills-container">
+            <div class="skill-group">
+                <h4>AI & Machine Learning</h4>
                 <div class="skill-tags">
-                    <span class="tag">React</span>
-                    <span class="tag">Vue.js</span>
-                    <span class="tag">TypeScript</span>
-                    <span class="tag">Tailwind CSS</span>
-                    <span class="tag">Next.js</span>
-                </div>
-            </div>
-            
-            <div class="skill-group mb-2">
-                <h4 style="color: var(--primary); margin-bottom: 1rem;">Backend</h4>
-                <div class="skill-tags">
-                    <span class="tag">Django</span>
-                    <span class="tag">Node.js</span>
-                    <span class="tag">PostgreSQL</span>
-                    <span class="tag">Redis</span>
-                    <span class="tag">Docker</span>
+                    <span class="tag">TensorFlow</span>
+                    <span class="tag">PyTorch</span>
+                    <span class="tag">Scikit-learn</span>
+                    <span class="tag">Keras</span>
+                    <span class="tag">OpenCV</span>
                 </div>
             </div>
             
             <div class="skill-group">
-                <h4 style="color: var(--primary); margin-bottom: 1rem;">Tools & Others</h4>
+                <h4>Programming</h4>
                 <div class="skill-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">C++</span>
+                    <span class="tag">SQL</span>
+                    <span class="tag">R</span>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Tools & Frameworks</h4>
+                <div class="skill-tags">
+                    <span class="tag">Django</span>
+                    <span class="tag">Docker</span>
                     <span class="tag">Git</span>
                     <span class="tag">AWS</span>
-                    <span class="tag">CI/CD</span>
-                    <span class="tag">Figma</span>
-                    <span class="tag">Linux</span>
+                    <span class="tag">Jupyter</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Recent Blog Posts -->
-{% if recent_posts %}
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Recent Blog Posts</h2>
-        
-        <div class="card-grid">
-            {% for post in recent_posts %}
-            <div class="card">
-                <span class="tag mb-1">{{ post.publication_platform }}</span>
-                <h3 class="card-title">{{ post.title }}</h3>
-                <p class="card-description">{{ post.summary|truncatewords:20 }}</p>
-                
-                <div class="card-meta" style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">
-                    <i class="fas fa-calendar"></i> {{ post.publication_date|date:"M d, Y" }}
-                </div>
-                
-                <a href="{{ post.external_url }}" target="_blank" class="card-link">
-                    Read More <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<style>
-/* Page specific styles */
-.hero-tagline {
-    color: var(--text-secondary);
-    font-size: 1.125rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: var(--space-md);
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-}
-
-.card-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-}
-
-@media (max-width: 768px) {
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .btn {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-    }
-}
-</style>
 {% endblock %}
