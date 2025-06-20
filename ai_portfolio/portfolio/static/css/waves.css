@@ -1,0 +1,191 @@
+/* Wave Animation Variations */
+
+/* Option 1: Simple Bottom Wave (Default) */
+.wave-simple {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.2' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,218.7C672,235,768,245,864,234.7C960,224,1056,192,1152,186.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+    animation: wave 10s linear infinite;
+}
+
+/* Option 2: Layered Waves */
+.wave-layered {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.wave-layered::before,
+.wave-layered::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+.wave-layered::before {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%233b82f6' fill-opacity='0.1' d='M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,154.7C1200,171,1320,181,1380,186.7L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+    animation: wave 20s linear infinite;
+}
+
+.wave-layered::after {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%238b5cf6' fill-opacity='0.1' d='M0,192L60,176C120,160,240,128,360,128C480,128,600,160,720,165.3C840,171,960,149,1080,138.7C1200,128,1320,128,1380,128L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+    animation: wave 15s linear infinite reverse;
+}
+
+/* Option 3: Gradient Wave */
+.wave-gradient {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(59, 130, 246, 0.05) 50%, 
+        rgba(139, 92, 246, 0.1) 100%);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='white' d='M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,144C672,139,768,149,864,165.3C960,181,1056,203,1152,197.3C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    mask-size: 200% 100%;
+    mask-repeat: no-repeat;
+    animation: wave-mask 20s ease-in-out infinite;
+}
+
+/* Option 4: Calm Ripple */
+.wave-ripple {
+    position: fixed;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(0deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        transparent 100%);
+    border-radius: 100% 100% 0 0;
+    transform: translateX(-50%);
+    animation: ripple 8s ease-in-out infinite;
+}
+
+/* Option 5: Multi-Layer Glass Wave */
+.wave-glass {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+}
+
+.wave-glass::before,
+.wave-glass::after,
+.wave-glass .wave-layer {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(3px);
+    border-radius: 1000px 1000px 0 0;
+}
+
+.wave-glass::before {
+    animation: wave-flow 25s linear infinite;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.wave-glass::after {
+    animation: wave-flow 20s linear infinite reverse;
+    background: rgba(139, 92, 246, 0.05);
+    height: 80%;
+}
+
+.wave-glass .wave-layer {
+    animation: wave-flow 30s linear infinite;
+    background: rgba(255, 255, 255, 0.08);
+    height: 60%;
+}
+
+/* Animations */
+@keyframes wave {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes wave-mask {
+    0%, 100% { mask-position: 0% 0%; }
+    50% { mask-position: 100% 0%; }
+}
+
+@keyframes ripple {
+    0%, 100% { 
+        transform: translateX(-50%) translateY(0) scale(1);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateX(-50%) translateY(-10px) scale(1.02);
+        opacity: 1;
+    }
+}
+
+@keyframes wave-flow {
+    0% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(-25%) translateY(-5px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+/* Usage Instructions */
+/* 
+To use different wave styles, add the class to your wave container:
+
+1. Simple Wave (default):
+   <div class="wave-container"><div class="wave"></div></div>
+
+2. Layered Waves:
+   <div class="wave-layered"></div>
+
+3. Gradient Wave:
+   <div class="wave-gradient"></div>
+
+4. Calm Ripple:
+   <div class="wave-ripple"></div>
+
+5. Glass Wave:
+   <div class="wave-glass"><div class="wave-layer"></div></div>
+*/
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .wave-simple,
+    .wave-layered,
+    .wave-gradient,
+    .wave-glass {
+        height: 60px;
+    }
+    
+    .wave-ripple {
+        height: 50px;
+    }
+}
+
+/* Performance Mode - Disable waves on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+    .wave-simple,
+    .wave-layered::before,
+    .wave-layered::after,
+    .wave-gradient,
+    .wave-ripple,
+    .wave-glass::before,
+    .wave-glass::after,
+    .wave-glass .wave-layer {
+        animation: none !important;
+    }
+}
