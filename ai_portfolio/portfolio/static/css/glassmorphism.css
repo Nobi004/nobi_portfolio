@@ -99,7 +99,7 @@
 }
 
 .glass-button {
-    background: var(--glass-bg);
+    background: var(--accent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
