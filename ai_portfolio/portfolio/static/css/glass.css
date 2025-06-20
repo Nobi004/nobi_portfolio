@@ -105,7 +105,7 @@ body {
     top: 0;
     z-index: 1000;
     padding: var(--space-sm) 0;
-    background: var(--glass-bg);
+    background: var(--accent);
     backdrop-filter: saturate(180%) var(--blur);
     -webkit-backdrop-filter: saturate(180%) var(--blur);
     border-bottom: 1px solid var(--glass-border);
